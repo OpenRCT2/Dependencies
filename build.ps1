@@ -1,7 +1,6 @@
 Import-Module Pscx
 
-mkdir build 
-mkdir build\openssl
+mkdir build
 mkdir openssl_tmp
 cp .\src\argparse .\build -Recurse -Force
 cp .\src\cutest .\build -Recurse -Force
