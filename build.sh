@@ -36,5 +36,5 @@ pushd ./src/jansson
 popd
 
 #copy global includes to the build
-cp -ai ./src/openssl/RCTBUILD/lib ./build/glob/lib
-cp -ai ./src/openssl/RCTBUILD/include ./build/glob/include
+cp -ai ./src/RCTBUILD/lib ./build/glob/lib
+cp -ai ./src/RCTBUILD/include ./build/glob/include
