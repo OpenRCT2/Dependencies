@@ -30,11 +30,13 @@ popd
 
 #build jansson for minw
 pushd ./src/jansson
-	./configure mingw32 --host=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
+	./configure mingw32 --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
 	make
 	make install
 popd
 
 #copy global includes to the build
-cp -ai ./src/RCTBUILD/lib ./build/glob/lib
-cp -ai ./src/RCTBUILD/include ./build/glob/include
+mkdir ./RCTBUILD/include/jansson
+mv ./RCTBUILD/include/jansson*.h ./RCTBUILD/include/jansson/.
+cp -ai ./RCTBUILD/lib ./build/glob/lib
+cp -ai ./RCTBUILD/include ./build/glob/include

@@ -177,4 +177,25 @@ src/openssl/crypto/buildinf.h
 src/openssl/crypto/opensslconf.h
 src/openssl/crypto/opensslconf.h.bak
 
+src/jansson/MakeFile
+src/jansson/config.status
+src/jansson/doc/MakeFile
+src/jansson/jansson.pc
+src/jansson/src/MakeFile
+src/jansson/test/Makefile
+src/jansson/jansson_private_config.h
+src/jansson/libtool
+src/jansson/src/.deps/
+src/jansson/stamp-h1
+src/jansson/test/suites/Makefile
+src/jansson/test/suites/api/.deps/
+src/jansson/test/suites/api/Makefile
+
+src/jansson/src/*.o
+src/jansson/src/*.lo
+src/jansson/src/*.la
+src/jansson/src/.libs
+
+!src/jansson/test/bin
+
 RCTBUILD/
