@@ -2,6 +2,8 @@ Import-Module Pscx
 
 mkdir build
 mkdir openssl_tmp
+mkdir .\build\libcurl
+mkdir .\build\libcurl\lib
 cp .\src\argparse .\build -Recurse -Force
 cp .\src\cutest .\build -Recurse -Force
 cp .\src\jansson\win .\build\jansson -Recurse -Force
