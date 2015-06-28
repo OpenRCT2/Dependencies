@@ -4,7 +4,7 @@ mkdir build
 mkdir openssl_tmp
 cp .\src\argparse .\build -Recurse -Force
 cp .\src\cutest .\build -Recurse -Force
-cp .\src\jansson .\build -Recurse -Force
+cp .\src\jansson\win .\build\jansson -Recurse -Force
 cp .\src\libspeex .\build -Recurse -Force
 cp .\src\lodepng .\build -Recurse -Force
 cp .\src\sdl .\build -Recurse -Force
