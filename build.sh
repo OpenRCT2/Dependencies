@@ -15,7 +15,7 @@ cp -ai ./src/lodepng ./build/local
 
 #build openssl for mingw
 pushd ./src/openssl
-	perl Configure mingw no-shared no-asm --prefix=$BASEDIR/RCTBUILD --cross-compile-prefix=i686-w64-mingw32-
+	perl Configure mingw no-shared no-asm --prefix=$BASEDIR/RCTBUILD --host=i686-w64-mingw32 --target=i686-w64-mingw32 --build=mingw32
 	make depend
 	make
 	make install
@@ -23,7 +23,7 @@ popd
 
 #build libcurl for mingw
 pushd ./src/curl
-	./configure mingw32 --host=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
+	./configure mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --build=mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
 	make
 	make install-strip
 popd
