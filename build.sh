@@ -1,4 +1,8 @@
 #uses glob and local to separate where to extract files in the OpenRCT2 during pre-build
+UNAME="$(uname)"
+if [ ${UNAME:0:6) == "CYGWIN" ]; then
+	PATH_SEPARATOR=';'
+fi
 
 BASEDIR=`pwd`/`dirname $0`
 
