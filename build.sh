@@ -30,6 +30,7 @@ popd
 
 #build jansson for minw
 pushd ./src/jansson
+	autoreconf -vi
 	./configure --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
 	make
 	make install
