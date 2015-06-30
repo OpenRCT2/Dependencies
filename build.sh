@@ -15,7 +15,7 @@ cp -ai ./src/lodepng ./build/local
 
 #build openssl for mingw
 pushd ./src/openssl
-	perl Configure mingw no-shared no-asm --prefix=$BASEDIR/RCTBUILD --host=i686-w64-mingw32 --target=i686-w64-mingw32 --build=mingw32
+	perl Configure mingw no-shared no-asm --cross-compile-prefix=i686-w64-mingw32- --prefix=$BASEDIR/RCTBUILD
 	make depend
 	make
 	make install
@@ -23,14 +23,14 @@ popd
 
 #build libcurl for mingw
 pushd ./src/curl
-	./configure mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --build=mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
+	./configure --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
 	make
 	make install-strip
 popd
 
 #build jansson for minw
 pushd ./src/jansson
-	./configure mingw32 --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
+	./configure --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
 	make
 	make install
 popd
@@ -38,5 +38,5 @@ popd
 #copy global includes to the build
 mkdir ./RCTBUILD/include/jansson
 mv ./RCTBUILD/include/jansson*.h ./RCTBUILD/include/jansson/.
-cp -ai ./RCTBUILD/lib ./build/glob/lib
-cp -ai ./RCTBUILD/include ./build/glob/include
+cp -ai ./RCTBUILD/lib ./build/glob/
+cp -ai ./RCTBUILD/include ./build/glob/
