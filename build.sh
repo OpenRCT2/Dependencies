@@ -27,7 +27,7 @@ popd
 
 #build libcurl for mingw
 pushd ./src/curl
-	./configure mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
+	./configure mingw32 --target=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --with-ssl --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
 	make
 	make install-strip
 popd
