@@ -20,6 +20,7 @@ cp -ai ./src/lodepng ./build/local
 #build openssl for mingw
 pushd ./src/openssl
 	CROSS_COMPILE="i686-w64-mingw32-" ./Configure mingw no-asm --prefix=$BASEDIR/RCTBUILD
+	make clean
 	make depend
 	make
 	make install
@@ -27,7 +28,9 @@ popd
 
 #build libcurl for mingw
 pushd ./src/curl
+	autoreconf -vi
 	./configure mingw32 --target=i686-w64-mingw32 --host=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
+	make clean
 	make
 	make install-strip
 popd
@@ -36,6 +39,7 @@ popd
 pushd ./src/jansson
 	autoreconf -vi
 	./configure --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD
+	make clean
 	make
 	make install
 popd
