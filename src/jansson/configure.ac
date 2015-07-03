@@ -33,7 +33,7 @@ esac
 AC_SUBST([json_inline])
 
 # Checks for library functions.
-AC_CHECK_FUNCS([close getpid gettimeofday localeconv open read sched_yield strtoll])
+AC_CHECK_FUNCS([close getpid gettimeofday localeconv open read strtoll])
 
 AC_MSG_CHECKING([for gcc __sync builtins])
 have_sync_builtins=no
