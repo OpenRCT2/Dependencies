@@ -29,7 +29,7 @@ popd
 #build libcurl for mingw
 pushd ./src/curl
 	autoreconf -vi
-	./configure mingw32 --target=i686-w64-mingw32 --host=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD
+	./configure mingw32 --target=i686-w64-mingw32 --host=i686-w64-mingw32 --with-ssl=$BASEDIR/RCTBUILD --disable-shared --disable-ldap --disable-ldaps --disable-rtsp --disable-zlib --prefix=$BASEDIR/RCTBUILD curl_disallow_strtok_r=yes
 	make clean
 	make
 	make install-strip
