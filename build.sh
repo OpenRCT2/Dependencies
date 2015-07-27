@@ -49,3 +49,7 @@ mkdir ./RCTBUILD/include/jansson
 mv ./RCTBUILD/include/jansson*.h ./RCTBUILD/include/jansson/.
 cp -ai ./RCTBUILD/lib ./build/glob/
 cp -ai ./RCTBUILD/include ./build/glob/
+
+#add sdl_ttf to glob
+mkdir ./build/glob/sdl_ttf
+cp -ai ./src/sdl_ttf/MinGW/* ./build/glob/sdl_ttf
