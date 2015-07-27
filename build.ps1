@@ -5,14 +5,14 @@ mkdir openssl_tmp
 mkdir .\build\libcurl
 mkdir .\build\libcurl\lib
 mkdir .\build\libcurl\include
-mkdir .\build\sdl_ttf
+mkdir .\build\SDL2_ttf
 cp .\src\argparse .\build -Recurse -Force
 cp .\src\cutest .\build -Recurse -Force
 cp .\src\jansson\win .\build\jansson -Recurse -Force
 cp .\src\libspeex .\build -Recurse -Force
 cp .\src\lodepng .\build -Recurse -Force
 cp .\src\sdl .\build -Recurse -Force
-cp .\src\sdl_ttf\VC\* .\build\sdl_ttf -Recurse -Force
+cp .\src\sdl_ttf\VC\* .\build\SDL2_ttf -Recurse -Force
 
 pushd .\src\openssl
     Invoke-BatchFile 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat'
