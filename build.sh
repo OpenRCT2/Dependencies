@@ -44,11 +44,15 @@ pushd ./src/jansson
 	make install
 popd
 
+pushd ./src/sdl_ttf
+	./configure --build=mingw32 --host=i686-w64-mingw32 --target=i686-w64-mingw32 --prefix=$BASEDIR/RCTBUILD --disable-shared
+	make clean
+	make
+	make install
+popd
+
 #copy global includes to the build
 mkdir ./RCTBUILD/include/jansson
 mv ./RCTBUILD/include/jansson*.h ./RCTBUILD/include/jansson/.
 cp -ai ./RCTBUILD/lib ./build/glob/
 cp -ai ./RCTBUILD/include ./build/glob/
-
-#add sdl_ttf to glob
-cp -ai ./src/sdl_ttf/MinGW/* ./build/glob
