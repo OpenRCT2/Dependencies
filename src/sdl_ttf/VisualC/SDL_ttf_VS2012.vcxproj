@@ -200,6 +200,12 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\$(Platform)\$(Configuration)\SDL2_ttf.bsc</OutputFile>
     </Bscmake>
+    <Lib>
+      <AdditionalDependencies>freetype2412MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)external\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
