@@ -1,3 +1,7 @@
+#if _MSC_VER >= 1900
+#define HAVE_SNPRINTF
+#endif
+
 /* #undef HAVE_ENDIAN_H */
 #define HAVE_FCNTL_H 1
 /* #undef HAVE_SCHED_H */
