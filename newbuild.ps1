@@ -10,6 +10,18 @@ function AppExists($app)
     return ($result -ne $null -and $result.Count -gt 0)
 }
 
+$7zcmd = "7za"
+if (-not (AppExists($7zcmd)))
+{
+    # AppVeyor in particular uses '7z' instead
+    $7zcmd = "7z"
+    if (-not (AppExists($7zcmd)))
+    {
+        Write-Host "Build script requires 7z to be in PATH" -ForegroundColor Red
+        return 1
+    }
+}
+
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 Write-Host "Creating OpenRCT2 dependencies for Visual Studio 2015" -ForegroundColor Cyan
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
@@ -35,12 +47,25 @@ Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\zlib.lib"     $binDir
 
+# Download OpenSSL
+$opensslDownloadUrl = "https://github.com/openssl/openssl/archive/master.zip"
+Invoke-WebRequest $opensslDownloadUrl -OutFile ".\openssl.zip"
+& $7zcmd x .\openssl.zip -osrc | Write-Host
+Move-Item .\src\openssl-master .\src\openssl
+
+# Build OpenSSL
+Write-Host "Building OpenSSL..." -ForegroundColor Cyan
+$env:VSCOMNTOOLS = (Get-Content("env:VS140COMNTOOLS"))
+& ".\build_openssl.bat"
+Copy-Item -Force ".\src\openssl\out32\libeay32.lib" $binDir
+Copy-Item -Force ".\src\openssl\out32\ssleay32.lib" $binDir
+
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
 # Merge static libraries
 Write-Host "Merging static libraries..." -ForegroundColor Cyan
 Push-Location ".\bin"
-& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\libpng16.lib" ".\zlib.lib"
+& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\libpng16.lib" ".\zlib.lib" ".\libeay32.lib" ".\ssleay32.lib"
 Pop-Location
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
