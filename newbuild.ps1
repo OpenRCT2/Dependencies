@@ -47,6 +47,11 @@ Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\zlib.lib"     $binDir
 
+# Build nonproject (jansson, libspeex)
+Write-Host "Building nonproject (jansson, libspeex)..." -ForegroundColor Cyan
+msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x86" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
+
 # Download OpenSSL
 $opensslDownloadUrl = "https://github.com/openssl/openssl/archive/master.zip"
 Invoke-WebRequest $opensslDownloadUrl -OutFile ".\openssl.zip"
@@ -65,7 +70,7 @@ Write-Host "-----------------------------------------------------" -ForegroundCo
 # Merge static libraries
 Write-Host "Merging static libraries..." -ForegroundColor Cyan
 Push-Location ".\bin"
-& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\libpng16.lib" ".\zlib.lib" ".\libeay32.lib" ".\ssleay32.lib"
+& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\libpng16.lib" ".\zlib.lib" ".\nonproject.lib" ".\libeay32.lib" ".\ssleay32.lib"
 Pop-Location
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
@@ -76,12 +81,15 @@ function CopyHeaders($src, $dst)
     $dst = "$includeDir\$dst"
     Write-Host "Copying headers to $dst"
     New-Item -Force -ItemType Directory $dst > $null
-    Copy-Item -Force $src $dst
+    Copy-Item -Force -Recurse $src $dst
 }
 
 Write-Host "Copying headers..." -ForegroundColor Cyan
-CopyHeaders ".\src\libpng\*.h" "libpng"
-CopyHeaders ".\src\zlib\*.h"   "zlib"
+CopyHeaders ".\src\libpng\*.h"         "libpng"
+CopyHeaders ".\src\zlib\*.h"           "zlib"
+CopyHeaders ".\src\jansson\src\*.h"    "jansson"
+CopyHeaders ".\src\libspeex\*.h"       "libspeex"
+CopyHeaders ".\src\libspeex\speex\*.h" "libspeex\speex"
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
