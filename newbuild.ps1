@@ -65,17 +65,22 @@ msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platfor
 Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
 
 # Download OpenSSL
-$opensslDownloadUrl = "https://github.com/openssl/openssl/archive/master.zip"
-Invoke-WebRequest $opensslDownloadUrl -OutFile ".\openssl.zip"
-& $7zcmd x .\openssl.zip -osrc | Write-Host
-Move-Item .\src\openssl-master .\src\openssl
+$opensslDownloadUrl = "https://github.com/openssl/openssl/archive/OpenSSL_1_0_2-stable.zip"
+$opensslDownloadOut = ".\openssl.zip"
+if (-not (Test-Path -PathType Leaf $opensslDownloadOut))
+{
+    $extractDir = ".\src\openssl-OpenSSL_1_0_2-stable"
+    Invoke-WebRequest $opensslDownloadUrl -OutFile $opensslDownloadOut
+    Remove-Item -Force -Recurse $extractDir     -ErrorAction SilentlyContinue
+    Remove-Item -Force -Recurse ".\src\openssl" -ErrorAction SilentlyContinue
+    & $7zcmd x $opensslDownloadOut -osrc | Write-Host
+    Move-Item $extractDir ".\src\openssl"
+}
 
 # Build OpenSSL
 Write-Host "Building OpenSSL..." -ForegroundColor Cyan
 $env:VSCOMNTOOLS = (Get-Content("env:VS140COMNTOOLS"))
 & ".\build_openssl.bat"
-Copy-Item -Force ".\src\openssl\out32\libeay32.lib" $binDir
-Copy-Item -Force ".\src\openssl\out32\ssleay32.lib" $binDir
 
 # Build libcurl
 Write-Host "Building libcurl..." -ForegroundColor Cyan
@@ -92,8 +97,6 @@ Push-Location ".\bin"
                                                                  ".\libpng16.lib" `
                                                                  ".\zlib.lib" `
                                                                  ".\nonproject.lib" `
-                                                                 ".\libeay32.lib" `
-                                                                 ".\ssleay32.lib" `
                                                                  ".\libcurl.lib"
 Pop-Location
 
