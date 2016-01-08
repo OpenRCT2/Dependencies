@@ -77,6 +77,11 @@ $env:VSCOMNTOOLS = (Get-Content("env:VS140COMNTOOLS"))
 Copy-Item -Force ".\src\openssl\out32\libeay32.lib" $binDir
 Copy-Item -Force ".\src\openssl\out32\ssleay32.lib" $binDir
 
+# Build libcurl
+Write-Host "Building libcurl..." -ForegroundColor Cyan
+msbuild ".\src\curl\projects\Windows\VC12\lib\libcurl.sln" "/p:Configuration=LIB Release - LIB OpenSSL" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\src\curl\build\Win32\VC12\LIB Release - LIB OpenSSL\libcurl.lib" $binDir
+
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
 # Merge static libraries
@@ -88,7 +93,8 @@ Push-Location ".\bin"
                                                                  ".\zlib.lib" `
                                                                  ".\nonproject.lib" `
                                                                  ".\libeay32.lib" `
-                                                                 ".\ssleay32.lib"
+                                                                 ".\ssleay32.lib" `
+                                                                 ".\libcurl.lib"
 Pop-Location
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
@@ -103,11 +109,14 @@ function CopyHeaders($src, $dst)
 }
 
 Write-Host "Copying headers..." -ForegroundColor Cyan
-CopyHeaders ".\src\libpng\*.h"         "libpng"
-CopyHeaders ".\src\zlib\*.h"           "zlib"
-CopyHeaders ".\src\jansson\src\*.h"    "jansson"
-CopyHeaders ".\src\libspeex\*.h"       "libspeex"
-CopyHeaders ".\src\libspeex\speex\*.h" "libspeex\speex"
+CopyHeaders ".\src\sdl\include\*.h"       "sdl"
+CopyHeaders ".\src\sdl_ttf\*.h"           "sdl_ttf"
+CopyHeaders ".\src\libpng\*.h"            "libpng"
+CopyHeaders ".\src\zlib\*.h"              "zlib"
+CopyHeaders ".\src\jansson\src\*.h"       "jansson"
+CopyHeaders ".\src\libspeex\*.h"          "libspeex"
+CopyHeaders ".\src\libspeex\speex\*.h"    "libspeex\speex"
+CopyHeaders ".\src\curl\include\curl\*.h" "curl"
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
