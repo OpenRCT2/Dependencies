@@ -40,6 +40,12 @@ New-Item -Force -ItemType Directory $binDir       > $null
 New-Item -Force -ItemType Directory $includeDir   > $null
 New-Item -Force -ItemType Directory $artifactsDir > $null
 
+# Build SDL2
+Write-Host "Building SDL2..." -ForegroundColor Cyan
+msbuild ".\src\sdl\VisualC\SDL\SDL.vcxproj" "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+Write-Host
+Copy-Item -Force ".\src\sdl\VisualC\SDL\Win32\Release\SDL2.lib" $binDir
+
 # Build libpng + zlib
 Write-Host "Building libpng + zlib..." -ForegroundColor Cyan
 msbuild ".\src\libpng\projects\vstudio\vstudio.sln" "/p:Configuration=Release Library" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
@@ -70,7 +76,12 @@ Write-Host "-----------------------------------------------------" -ForegroundCo
 # Merge static libraries
 Write-Host "Merging static libraries..." -ForegroundColor Cyan
 Push-Location ".\bin"
-& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\libpng16.lib" ".\zlib.lib" ".\nonproject.lib" ".\libeay32.lib" ".\ssleay32.lib"
+& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\sdl2.lib" `
+                                                                 ".\libpng16.lib" `
+                                                                 ".\zlib.lib" `
+                                                                 ".\nonproject.lib" `
+                                                                 ".\libeay32.lib" `
+                                                                 ".\ssleay32.lib"
 Pop-Location
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
