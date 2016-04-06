@@ -123,7 +123,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ExceptionHandling />
       <MinimalRebuild>false</MinimalRebuild>
@@ -172,7 +172,7 @@
       <AdditionalIncludeDirectories>..\..\..;..\..\..\third_party\platformsdk_win7\files\Include;$(VSInstallDir)\VC\atlmfc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ExceptionHandling />
       <MinimalRebuild>false</MinimalRebuild>
@@ -221,7 +221,7 @@
       <AdditionalIncludeDirectories>..\..\..;..\..\..\third_party\platformsdk_win7\files\Include;$(VSInstallDir)\VC\atlmfc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ExceptionHandling />
       <MinimalRebuild>false</MinimalRebuild>
@@ -272,7 +272,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ExceptionHandling />
       <MinimalRebuild>false</MinimalRebuild>
@@ -321,7 +321,7 @@
       <AdditionalIncludeDirectories>..\..\..;..\..\..\third_party\platformsdk_win7\files\Include;$(VSInstallDir)\VC\atlmfc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4189;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -380,7 +380,7 @@
       <AdditionalIncludeDirectories>..\..\..;..\..\..\third_party\platformsdk_win7\files\Include;$(VSInstallDir)\VC\atlmfc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4100;4127;4396;4503;4512;4819;4995;4702;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <ExceptionHandling />
       <MinimalRebuild>false</MinimalRebuild>
