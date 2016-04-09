@@ -41,6 +41,15 @@ New-Item -Force -ItemType Directory $binDir       > $null
 New-Item -Force -ItemType Directory $includeDir   > $null
 New-Item -Force -ItemType Directory $artifactsDir > $null
 
+# Build breakpad
+Write-Host "Building breakpad..." -ForegroundColor Cyan
+msbuild ".\src\breakpad\src\src\client\windows\breakpad_client.sln" "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:Minimal"
+Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\common.lib" $binDir
+Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\crash_generation_client.lib" $binDir
+Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\exception_handler.lib" $binDir
+Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\crash_report_sender.lib" $binDir
+Write-Host
+
 # Build SDL2
 Write-Host "Building SDL2..." -ForegroundColor Cyan
 msbuild ".\src\sdl\VisualC\SDL\SDL.vcxproj" "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
@@ -121,7 +130,12 @@ Push-Location ".\bin"
                                                                  ".\libpng16.lib" `
                                                                  ".\zlib.lib" `
                                                                  ".\nonproject.lib" `
-                                                                 ".\libcurl.lib"
+                                                                 ".\libcurl.lib" `
+                                                                 ".\common.lib" `
+                                                                 ".\crash_report_sender.lib" `
+                                                                 ".\exception_handler.lib" `
+                                                                 ".\crash_generation_client.lib"
+
 if ($LASTEXITCODE -ne 0)
 {
     Write-Host "Failed to create merged library." -ForegroundColor Red
@@ -142,6 +156,13 @@ function CopyHeaders($src, $dst)
 }
 
 Write-Host "Copying headers..." -ForegroundColor Cyan
+CopyHeaders ".\src\breakpad\src\src\client\windows\handler\*.h"          "breakpad\client\windows\handler"
+CopyHeaders ".\src\breakpad\src\src\client\windows\sender\*.h"           "breakpad\client\windows\sender"
+CopyHeaders ".\src\breakpad\src\src\client\windows\common\*.h"           "breakpad\client\windows\common"
+CopyHeaders ".\src\breakpad\src\src\common\*.h"                          "breakpad\common"
+CopyHeaders ".\src\breakpad\src\src\common\windows\*.h"                  "breakpad\common\windows"
+CopyHeaders ".\src\breakpad\src\src\client\windows\crash_generation\*.h" "breakpad\client\windows\crash_generation"
+CopyHeaders ".\src\breakpad\src\src\google_breakpad\common\*.h"          "breakpad\google_breakpad\common"
 CopyHeaders ".\src\sdl\include\*.h"       "sdl"
 CopyHeaders ".\src\sdl_ttf\*.h"           "sdl_ttf"
 CopyHeaders ".\src\libpng\*.h"            "libpng"
