@@ -95,7 +95,7 @@ if ($buildOpenSSL)
 	& ".\build_openssl.bat"
 } else {
 	# Download OpenSSL
-	$opensslVersion = "1.0.2e"
+	$opensslVersion = "1.0.2h"
 	$opensslDownloadUrl = "http://www.npcglib.org/~stathis/downloads/openssl-$opensslVersion-vs2015.7z"
 	$opensslDownloadOut = ".\openssl-precompiled.7z"
 	if (-not (Test-Path -PathType Leaf $opensslDownloadOut))
@@ -111,6 +111,8 @@ if ($buildOpenSSL)
 		Move-Item ".\src\openssl\lib\libeay32MT.lib" ".\src\openssl\lib\libeay32.lib"
 		Move-Item ".\src\openssl\lib\ssleay32MT.lib" ".\src\openssl\lib\ssleay32.lib"
 		Move-Item ".\src\openssl\lib" ".\src\openssl\out32"
+		Copy-Item -Force ".\src\openssl\out32\ssleay32.lib" $binDir
+		Copy-Item -Force ".\src\openssl\out32\libeay32.lib" $binDir
 	}
 }
 
@@ -163,14 +165,15 @@ CopyHeaders ".\src\breakpad\src\src\common\*.h"                          "breakp
 CopyHeaders ".\src\breakpad\src\src\common\windows\*.h"                  "breakpad\common\windows"
 CopyHeaders ".\src\breakpad\src\src\client\windows\crash_generation\*.h" "breakpad\client\windows\crash_generation"
 CopyHeaders ".\src\breakpad\src\src\google_breakpad\common\*.h"          "breakpad\google_breakpad\common"
-CopyHeaders ".\src\sdl\include\*.h"       "sdl"
-CopyHeaders ".\src\sdl_ttf\*.h"           "sdl_ttf"
-CopyHeaders ".\src\libpng\*.h"            "libpng"
-CopyHeaders ".\src\zlib\*.h"              "zlib"
-CopyHeaders ".\src\jansson\src\*.h"       "jansson"
-CopyHeaders ".\src\libspeex\*.h"          "libspeex"
-CopyHeaders ".\src\libspeex\speex\*.h"    "libspeex\speex"
-CopyHeaders ".\src\curl\include\curl\*.h" "curl"
+CopyHeaders ".\src\sdl\include\*.h"                                      "sdl"
+CopyHeaders ".\src\sdl_ttf\*.h"                                          "sdl_ttf"
+CopyHeaders ".\src\libpng\*.h"                                           "libpng"
+CopyHeaders ".\src\zlib\*.h"                                             "zlib"
+CopyHeaders ".\src\jansson\src\*.h"                                      "jansson"
+CopyHeaders ".\src\libspeex\*.h"                                         "libspeex"
+CopyHeaders ".\src\libspeex\speex\*.h"                                   "libspeex\speex"
+CopyHeaders ".\src\curl\include\curl\*.h"                                "curl"
+CopyHeaders ".\src\openssl\inc32\openssl\*.h"                            "openssl"
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
