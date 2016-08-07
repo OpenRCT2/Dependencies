@@ -58,7 +58,13 @@ Copy-Item -Force ".\src\freetype2\objs\vc2010\x64\freetype*.lib" "$binDir\freety
 
 # Build SDL2
 Write-Host "Building SDL2..." -ForegroundColor Cyan
-msbuild ".\src\sdl\VisualC\SDL\SDL.vcxproj" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+
+# Patch vcxproj
+$vcxprojPath = ".\src\sdl\VisualC\SDL\SDL.vcxproj"
+(Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
+$env:PreprocessorDefinitions = "HAVE_LIBC"
+msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+$env:PreprocessorDefinitions = $null
 Write-Host
 Copy-Item -Force ".\src\sdl\VisualC\SDL\x64\Release\SDL2.lib" $binDir
 
