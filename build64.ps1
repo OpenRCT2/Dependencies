@@ -101,7 +101,7 @@ Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"   
 
 # Build nonproject (jansson, libspeex)
 Write-Host "Building nonproject (jansson, libspeex)..." -ForegroundColor Cyan
-msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x86" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
 
 if ($buildOpenSSL)
