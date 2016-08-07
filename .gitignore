@@ -157,25 +157,18 @@ $RECYCLE.BIN/
 ## Dependencies build extra artefacts
 #############
 
-openssl_tmp/
+artifacts/
+src/libpng/pnglibconf.h
+src/libpng/projects/vstudio/Release Library/
+src/libpng/projects/vstudio/libpng/Release Library/
+src/libpng/projects/vstudio/pngstest/Release Library/
+src/libpng/projects/vstudio/pngtest/Release Library/
+src/libpng/projects/vstudio/pngunknown/Release Library/
+src/libpng/projects/vstudio/pngvalid/Release Library/
+src/libpng/projects/vstudio/zlib/Release Library/
 
-src/openssl/tmp32/**
-src/openssl/out32/**
-src/openssl/inc32/**
-
-src/openssl/MINFO
-src/openssl/Makefile
-src/openssl/Makefile.bak
-
-src/openssl/ms/bcb.mak
-src/openssl/ms/version32.rc
-src/openssl/ms/ssleay32.def
-src/openssl/ms/ntdll.mak
-src/openssl/ms/nt.mak
-src/openssl/ms/libeay32.def
-src/openssl/crypto/buildinf.h
-src/openssl/crypto/opensslconf.h
-src/openssl/crypto/opensslconf.h.bak
+openssl-precompiled.7z
+src/openssl/
 
 src/jansson/MakeFile
 src/jansson/config.status

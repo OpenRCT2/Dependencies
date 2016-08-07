@@ -1,2 +1,0 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-Release Multithreaded|Win32|C:\Users\miso\Documents\GitHub\Dependencies\src\sdl_ttf\external\freetype-2.4.12\builds\win32\vc2010\|

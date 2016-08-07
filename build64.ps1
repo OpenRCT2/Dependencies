@@ -1,6 +1,6 @@
 #########################################################
 # Script to build all the libraries required for OpenRCT2
-# into a single lib file for x86.
+# into a single lib file for x64.
 #########################################################
 $ErrorActionPreference = "Stop"
 
@@ -23,10 +23,10 @@ if (-not (AppExists("7z")))
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 Write-Host "Creating OpenRCT2 dependencies for Visual Studio 2015" -ForegroundColor Cyan
-Write-Host "Platform: x86"                                         -ForegroundColor Cyan
+Write-Host "Platform: x64"                                         -ForegroundColor Cyan
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
-$libExe = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\lib.exe"
+$libExe = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\lib.exe"
 
 $binDir = ".\bin"
 $artifactsDir = ".\artifacts"
@@ -39,7 +39,7 @@ New-Item -Force -ItemType Directory $artifactsDir > $null
 
 # Build breakpad
 Write-Host "Building breakpad..." -ForegroundColor Cyan
-msbuild ".\src\breakpad\src\src\client\windows\breakpad_client.sln" "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:Minimal"
+msbuild ".\src\breakpad\src\src\client\windows\breakpad_client.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:Minimal"
 Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\common.lib" $binDir
 Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\crash_generation_client.lib" $binDir
 Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\exception_handler.lib" $binDir
@@ -48,9 +48,9 @@ Write-Host
 
 # Build freetype2
 Write-Host "Building freetype2..." -ForegroundColor Cyan
-msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=Release Multithreaded" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=Release Multithreaded" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
-Copy-Item -Force ".\src\freetype2\objs\vc2010\Win32\freetype*.lib" "$binDir\freetype.lib"
+Copy-Item -Force ".\src\freetype2\objs\vc2010\x64\freetype*.lib" "$binDir\freetype.lib"
 
 # Build SDL2
 Write-Host "Building SDL2..." -ForegroundColor Cyan
@@ -60,9 +60,9 @@ $vcxprojPath = ".\src\sdl\VisualC\SDL\SDL.vcxproj"
 (Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath).Replace('%(PreprocessorDefinitions)', 'HAVE_LIBC;%(PreprocessorDefinitions)') | Set-Content $vcxprojPath
-msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
-Copy-Item -Force ".\src\sdl\VisualC\SDL\Win32\Release\SDL2.lib" $binDir
+Copy-Item -Force ".\src\sdl\VisualC\SDL\x64\Release\SDL2.lib" $binDir
 
 # Build SDL2_TTF
 Write-Host "Building SDL2_TTF..." -ForegroundColor Cyan
@@ -72,22 +72,32 @@ $vcxprojPath = ".\src\sdl_ttf\VisualC\SDL_ttf.vcxproj"
 (Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath).Replace("external\include", "external\include;..\..\sdl\include") | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace("external\lib\x86", "external\lib\x86;..\..\..\$binDir") | Set-Content $vcxprojPath
+(Get-Content $vcxprojPath).Replace("external\lib\x64", "external\lib\x64;..\..\..\$binDir") | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath -Raw) -replace "<CustomBuild(.|\n|\r)+?<\/CustomBuild>", "" | Set-Content $vcxprojPath
-msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
-Copy-Item -Force ".\src\sdl_ttf\VisualC\Win32\Release\SDL2_ttf.lib" $binDir
+Copy-Item -Force ".\src\sdl_ttf\VisualC\x64\Release\SDL2_ttf.lib" $binDir
 
 # Build libpng + zlib
 Write-Host "Building libpng + zlib..." -ForegroundColor Cyan
-msbuild ".\src\libpng\projects\vstudio\vstudio.sln" "/p:Configuration=Release Library" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
+
+# Patch vcxprojs
+$vcxprojPath = ".\src\libpng\projects\vstudio\libpng\libpng.vcxproj"
+(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
+$vcxprojPath = ".\src\libpng\projects\vstudio\pnglibconf\pnglibconf.vcxproj"
+(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
+$vcxprojPath = ".\src\libpng\projects\vstudio\zlib\zlib.vcxproj"
+(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
+$slnPath = ".\src\libpng\projects\vstudio\vstudio.sln"
+(Get-Content $slnPath).Replace('Win32', 'x64') | Set-Content $slnPath
+msbuild $slnPath "/t:libpng" "/p:Configuration=Release Library" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
-Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\libpng16.lib" $binDir
-Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\zlib.lib"     $binDir
+Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\libpng16.lib" $binDir
+Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"     $binDir
 
 # Build nonproject (jansson, libspeex)
 Write-Host "Building nonproject (jansson, libspeex)..." -ForegroundColor Cyan
-msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x86" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
 
 if ($buildOpenSSL)
@@ -124,26 +134,26 @@ if ($buildOpenSSL)
 		Move-Item $extractDir ".\src\openssl"
 		# Shuffle layout of files to what cURL expects them to be
 		Move-Item ".\src\openssl\include" ".\src\openssl\inc32"
-		Move-Item ".\src\openssl\lib\libeay32MT.lib" ".\src\openssl\lib\libeay32.lib"
-		Move-Item ".\src\openssl\lib\ssleay32MT.lib" ".\src\openssl\lib\ssleay32.lib"
-		Move-Item ".\src\openssl\lib" ".\src\openssl\out32"
-		Copy-Item -Force ".\src\openssl\out32\ssleay32.lib" $binDir
-		Copy-Item -Force ".\src\openssl\out32\libeay32.lib" $binDir
+		Move-Item ".\src\openssl\lib64\libeay32MT.lib" ".\src\openssl\lib64\libeay32.lib"
+		Move-Item ".\src\openssl\lib64\ssleay32MT.lib" ".\src\openssl\lib64\ssleay32.lib"
+		Move-Item ".\src\openssl\lib64" ".\src\openssl\out64"
+		Copy-Item -Force ".\src\openssl\out64\ssleay32.lib" $binDir
+		Copy-Item -Force ".\src\openssl\out64\libeay32.lib" $binDir
 	}
 }
 
 
 # Build libcurl
 Write-Host "Building libcurl..." -ForegroundColor Cyan
-msbuild ".\src\curl\projects\Windows\VC12\lib\libcurl.sln" "/p:Configuration=LIB Release - LIB OpenSSL" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
-Copy-Item -Force ".\src\curl\build\Win32\VC12\LIB Release - LIB OpenSSL\libcurl.lib" $binDir
+msbuild ".\src\curl\projects\Windows\VC12\lib\libcurl.sln" "/p:Configuration=LIB Release - LIB OpenSSL" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\src\curl\build\Win64\VC12\LIB Release - LIB OpenSSL\libcurl.lib" $binDir
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
 # Merge static libraries
 Write-Host "Merging static libraries..." -ForegroundColor Cyan
 Push-Location ".\bin"
-& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015-x86.lib" `
+& $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015-x64.lib" `
     ".\SDL2.lib" `
     ".\SDL2_ttf.lib" `
     ".\freetype.lib" `
