@@ -61,16 +61,24 @@ Write-Host "Building SDL2..." -ForegroundColor Cyan
 
 # Patch vcxproj
 $vcxprojPath = ".\src\sdl\VisualC\SDL\SDL.vcxproj"
+(Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
 (Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
-$env:PreprocessorDefinitions = "HAVE_LIBC"
+(Get-Content $vcxprojPath).Replace('%(PreprocessorDefinitions)', 'HAVE_LIBC;%(PreprocessorDefinitions)') | Set-Content $vcxprojPath
 msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
-$env:PreprocessorDefinitions = $null
 Write-Host
 Copy-Item -Force ".\src\sdl\VisualC\SDL\x64\Release\SDL2.lib" $binDir
 
 # Build SDL2_TTF
 Write-Host "Building SDL2_TTF..." -ForegroundColor Cyan
-msbuild ".\src\sdl_ttf\VisualC\SDL_ttf_VS2012.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+
+# Patch vcxproj
+$vcxprojPath = ".\src\sdl_ttf\VisualC\SDL_ttf.vcxproj"
+(Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
+(Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
+(Get-Content $vcxprojPath).Replace("external\include", "external\include;..\..\sdl\include") | Set-Content $vcxprojPath
+(Get-Content $vcxprojPath).Replace("external\lib\x64", "external\lib\x64;..\..\..\$binDir") | Set-Content $vcxprojPath
+(Get-Content $vcxprojPath -Raw) -replace "<CustomBuild(.|\n|\r)+?<\/CustomBuild>", "" | Set-Content $vcxprojPath
+msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\sdl_ttf\VisualC\x64\Release\SDL2_ttf.lib" $binDir
 
