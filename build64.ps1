@@ -26,7 +26,7 @@ Write-Host "-----------------------------------------------------" -ForegroundCo
 Write-Host "Creating OpenRCT2 dependencies for Visual Studio 2015" -ForegroundColor Cyan
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
-$libExe = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\lib.exe"
+$libExe = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\lib.exe"
 
 $binDir = ".\bin"
 $includeDir = ".\artifacts\include"
