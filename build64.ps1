@@ -159,6 +159,7 @@ Write-Host "Merging static libraries..." -ForegroundColor Cyan
 Push-Location ".\bin"
 & $libExe /LTCG "/OUT:..\$artifactsDir\openrct2-libs-vs2015.lib" ".\SDL2.lib" `
                                                                  ".\SDL2_ttf.lib" `
+                                                                 ".\freetype.lib" `
                                                                  ".\libpng16.lib" `
                                                                  ".\zlib.lib" `
                                                                  ".\nonproject.lib" `
