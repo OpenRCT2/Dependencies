@@ -52,7 +52,7 @@ Write-Host
 
 # Build freetype2
 Write-Host "Building freetype2..." -ForegroundColor Cyan
-msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=Release Multithreaded" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\freetype2\objs\vc2010\x64\freetype*.lib" "$binDir\freetype.lib"
 
