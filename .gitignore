@@ -157,7 +157,10 @@ $RECYCLE.BIN/
 ## Dependencies build extra artefacts
 #############
 
+artifacts/
 src/libpng/pnglibconf.h
+
+openssl-precompiled.7z
 
 openssl_tmp/
 
