@@ -4,3 +4,6 @@
 [submodule "src/sdl"]
 	path = src/sdl
 	url = https://github.com/spurious/SDL-mirror.git
+[submodule "src/sdl_ttf"]
+	path = src/sdl_ttf
+	url = https://github.com/SDL-mirror/SDL_ttf
