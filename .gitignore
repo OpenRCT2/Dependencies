@@ -157,6 +157,8 @@ $RECYCLE.BIN/
 ## Dependencies build extra artefacts
 #############
 
+src/libpng/pnglibconf.h
+
 openssl_tmp/
 
 src/openssl/tmp32/**
