@@ -73,7 +73,7 @@ Write-Host "Creating dependencies package..." -ForegroundColor Cyan
 
 
 # Create archive using 7z (renowned for speed and compression)
-7z a -tzip -mx9 $outZip "$artifactsDir\*" | Write-Host
+7z a -tzip -mx9 -mtc=off $outZip "$artifactsDir\*" | Write-Host
 if ($LASTEXITCODE -ne 0)
 {
     Write-Host "Failed to create zip." -ForegroundColor Red
