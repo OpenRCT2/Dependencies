@@ -1,7 +1,7 @@
 #########################################################
 # Script to package the merged lib and headers into a zip.
 #########################################################
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
 
 function AppExists($app)
 {
@@ -60,7 +60,7 @@ CopyHeaders ".\src\sdl\include\*.h"                                      "sdl"
 CopyHeaders ".\src\sdl_ttf\*.h"                                          "sdl_ttf"
 CopyHeaders ".\src\libpng\*.h"                                           "libpng"
 CopyHeaders ".\src\zlib\*.h"                                             "zlib"
-CopyHeaders ".\src\jansson\src\*.h"                                      "jansson"
+CopyHeaders ".\src\jansson\include\*.h"                                  "jansson"
 CopyHeaders ".\src\libspeex\*.h"                                         "libspeex"
 CopyHeaders ".\src\libspeex\speex\*.h"                                   "libspeex\speex"
 CopyHeaders ".\src\curl\include\curl\*.h"                                "curl"

@@ -2,7 +2,7 @@
 # Script to build all the libraries required for OpenRCT2
 # into a single lib file for x64.
 #########################################################
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
 
 function AppExists($app)
 {
@@ -59,6 +59,12 @@ msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=R
 Write-Host
 Copy-Item -Force ".\src\freetype2\objs\vc2010\x64\freetype*.lib" "$binDir\freetype.lib"
 
+# Build jansson
+Write-Host "Building jansson..." -ForegroundColor Cyan
+cmake -Bsrc\jansson\ -Hsrc\jansson\ -G "Visual Studio 14" -A x64 -DJANSSON_STATIC_CRT=ON -DJANSSON_BUILD_DOCS=OFF
+msbuild ".\src\jansson\jansson.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\src\jansson\lib\Release\jansson.lib" $binDir
+
 # Build SDL2
 Write-Host "Building SDL2..." -ForegroundColor Cyan
 
@@ -102,8 +108,8 @@ Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"     $binDir
 
-# Build nonproject (jansson, libspeex)
-Write-Host "Building nonproject (jansson, libspeex)..." -ForegroundColor Cyan
+# Build nonproject (libspeex)
+Write-Host "Building nonproject (libspeex)..." -ForegroundColor Cyan
 msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
 
@@ -153,6 +159,7 @@ Push-Location ".\bin"
     ".\SDL2.lib" `
     ".\SDL2_ttf.lib" `
     ".\freetype.lib" `
+    ".\jansson.lib" `
     ".\libpng16.lib" `
     ".\zlib.lib" `
     ".\nonproject.lib" `

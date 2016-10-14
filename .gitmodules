@@ -10,3 +10,6 @@
 [submodule "src/curl"]
 	path = src/curl
 	url = https://github.com/curl/curl.git
+[submodule "src/jansson"]
+	path = src/jansson
+	url = https://github.com/akheron/jansson.git

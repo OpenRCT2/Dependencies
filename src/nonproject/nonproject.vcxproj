@@ -85,28 +85,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\jansson\src\dump.c" />
-    <ClCompile Include="..\jansson\src\error.c" />
-    <ClCompile Include="..\jansson\src\hashtable.c" />
-    <ClCompile Include="..\jansson\src\hashtable_seed.c" />
-    <ClCompile Include="..\jansson\src\load.c" />
-    <ClCompile Include="..\jansson\src\memory.c" />
-    <ClCompile Include="..\jansson\src\pack_unpack.c" />
-    <ClCompile Include="..\jansson\src\strbuffer.c" />
-    <ClCompile Include="..\jansson\src\strconv.c" />
-    <ClCompile Include="..\jansson\src\utf.c" />
-    <ClCompile Include="..\jansson\src\value.c" />
     <ClCompile Include="..\libspeex\resample.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\jansson\src\hashtable.h" />
-    <ClInclude Include="..\jansson\src\jansson.h" />
-    <ClInclude Include="..\jansson\src\jansson_config.h" />
-    <ClInclude Include="..\jansson\src\jansson_private.h" />
-    <ClInclude Include="..\jansson\src\jansson_private_config.h" />
-    <ClInclude Include="..\jansson\src\lookup3.h" />
-    <ClInclude Include="..\jansson\src\strbuffer.h" />
-    <ClInclude Include="..\jansson\src\utf.h" />
     <ClInclude Include="..\libspeex\arch.h" />
     <ClInclude Include="..\libspeex\config.h" />
     <ClInclude Include="..\libspeex\os_support.h" />
