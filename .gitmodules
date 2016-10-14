@@ -7,3 +7,6 @@
 [submodule "src/sdl_ttf"]
 	path = src/sdl_ttf
 	url = https://github.com/SDL-mirror/SDL_ttf
+[submodule "src/curl"]
+	path = src/curl
+	url = https://github.com/curl/curl.git

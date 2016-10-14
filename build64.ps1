@@ -46,6 +46,13 @@ Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\exception_ha
 Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\crash_report_sender.lib" $binDir
 Write-Host
 
+# Build libcurl
+Write-Host "Building libcurl..." -ForegroundColor Cyan
+git apply --directory=src\curl patches\curl.diff
+.\src\curl\projects\generate.bat VC14
+msbuild ".\src\curl\projects\Windows\VC14\lib\libcurl.sln" "/p:Configuration=LIB Release - DLL Windows SSPI" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\src\curl\build\Win64\VC14\LIB Release - DLL Windows SSPI\libcurl.lib" $binDir
+
 # Build freetype2
 Write-Host "Building freetype2..." -ForegroundColor Cyan
 msbuild ".\src\freetype2\builds\windows\vc2010\freetype.sln" "/p:Configuration=Release Multithreaded" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
@@ -132,21 +139,10 @@ if ($buildOpenSSL)
 		Remove-Item -Force -Recurse ".\src\openssl" -ErrorAction SilentlyContinue
 		7z x $opensslDownloadOut -osrc | Write-Host
 		Move-Item $extractDir ".\src\openssl"
-		# Shuffle layout of files to what cURL expects them to be
-		Move-Item ".\src\openssl\include" ".\src\openssl\inc32"
-		Move-Item ".\src\openssl\lib64\libeay32MT.lib" ".\src\openssl\lib64\libeay32.lib"
-		Move-Item ".\src\openssl\lib64\ssleay32MT.lib" ".\src\openssl\lib64\ssleay32.lib"
-		Move-Item ".\src\openssl\lib64" ".\src\openssl\out64"
-		Copy-Item -Force ".\src\openssl\out64\ssleay32.lib" $binDir
-		Copy-Item -Force ".\src\openssl\out64\libeay32.lib" $binDir
+		Copy-Item -Force ".\src\openssl\lib64\libeay32MT.lib" "$binDir\libeay32.lib"
 	}
 }
 
-
-# Build libcurl
-Write-Host "Building libcurl..." -ForegroundColor Cyan
-msbuild ".\src\curl\projects\Windows\VC12\lib\libcurl.sln" "/p:Configuration=LIB Release - LIB OpenSSL" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
-Copy-Item -Force ".\src\curl\build\Win64\VC12\LIB Release - LIB OpenSSL\libcurl.lib" $binDir
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 
@@ -161,6 +157,7 @@ Push-Location ".\bin"
     ".\zlib.lib" `
     ".\nonproject.lib" `
     ".\libcurl.lib" `
+    ".\libeay32.lib" `
     ".\common.lib" `
     ".\crash_report_sender.lib" `
     ".\exception_handler.lib" `
