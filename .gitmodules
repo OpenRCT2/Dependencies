@@ -19,3 +19,6 @@
 [submodule "src/zlib"]
 	path = src/zlib
 	url = https://github.com/madler/zlib.git
+[submodule "src/speexdsp"]
+	path = src/speexdsp
+	url = https://github.com/xiph/speexdsp.git

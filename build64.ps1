@@ -99,10 +99,10 @@ Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"     $binDir
 
-# Build nonproject (libspeex)
-Write-Host "Building nonproject (libspeex)..." -ForegroundColor Cyan
-msbuild ".\src\nonproject\nonproject.sln" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
-Copy-Item -Force ".\src\nonproject\bin\nonproject.lib" $binDir
+# Build libspeexdsp
+Write-Host "Building libspeexdsp..." -ForegroundColor Cyan
+msbuild ".\vsprojects\speexdsp\libspeexdsp.sln" "/p:Configuration=Release Static" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\vsprojects\speexdsp\x64\Release Static\libspeexdsp.lib" $binDir
 
 if ($buildOpenSSL)
 {
@@ -153,7 +153,7 @@ Push-Location ".\bin"
     ".\jansson.lib" `
     ".\libpng16.lib" `
     ".\zlib.lib" `
-    ".\nonproject.lib" `
+    ".\libspeexdsp.lib" `
     ".\libcurl.lib" `
     ".\libeay32.lib" `
     ".\common.lib" `
