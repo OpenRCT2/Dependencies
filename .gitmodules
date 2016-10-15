@@ -16,3 +16,6 @@
 [submodule "src/libpng"]
 	path = src/libpng
 	url = https://github.com/glennrp/libpng.git
+[submodule "src/zlib"]
+	path = src/zlib
+	url = https://github.com/madler/zlib.git
