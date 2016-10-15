@@ -93,6 +93,7 @@ Copy-Item -Force ".\src\sdl_ttf\VisualC\Win32\Release\SDL2_ttf.lib" $binDir
 
 # Build libpng + zlib
 Write-Host "Building libpng + zlib..." -ForegroundColor Cyan
+git apply --directory=src\libpng patches\libpng.diff
 msbuild ".\src\libpng\projects\vstudio\vstudio.sln" "/p:Configuration=Release Library" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\Release Library\libpng16.lib" $binDir

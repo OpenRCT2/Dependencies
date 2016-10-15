@@ -13,3 +13,6 @@
 [submodule "src/jansson"]
 	path = src/jansson
 	url = https://github.com/akheron/jansson.git
+[submodule "src/libpng"]
+	path = src/libpng
+	url = https://github.com/glennrp/libpng.git

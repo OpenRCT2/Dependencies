@@ -93,17 +93,8 @@ Copy-Item -Force ".\src\sdl_ttf\VisualC\x64\Release\SDL2_ttf.lib" $binDir
 
 # Build libpng + zlib
 Write-Host "Building libpng + zlib..." -ForegroundColor Cyan
-
-# Patch vcxprojs
-$vcxprojPath = ".\src\libpng\projects\vstudio\libpng\libpng.vcxproj"
-(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
-$vcxprojPath = ".\src\libpng\projects\vstudio\pnglibconf\pnglibconf.vcxproj"
-(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
-$vcxprojPath = ".\src\libpng\projects\vstudio\zlib\zlib.vcxproj"
-(Get-Content $vcxprojPath).Replace('|Win32', '|x64') | Set-Content $vcxprojPath
-$slnPath = ".\src\libpng\projects\vstudio\vstudio.sln"
-(Get-Content $slnPath).Replace('Win32', 'x64') | Set-Content $slnPath
-msbuild $slnPath "/t:libpng" "/p:Configuration=Release Library" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+git apply --directory=src\libpng patches\libpng.diff
+msbuild ".\src\libpng\projects\vstudio\vstudio.sln" "/p:Configuration=Release Library" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"     $binDir
