@@ -1,0 +1,179 @@
+diff --git a/VisualC/SDL_ttf.vcxproj b/VisualC/SDL_ttf.vcxproj
+index 23bfbf1..c1f2274 100644
+--- a/VisualC/SDL_ttf.vcxproj
++++ b/VisualC/SDL_ttf.vcxproj
+@@ -25,16 +25,16 @@
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+   <ImportGroup Label="ExtensionSettings">
+@@ -91,9 +91,9 @@
+     </Midl>
+     <ClCompile>
+       <Optimization>Disabled</Optimization>
+-      <AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>external\include;..\..\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <WarningLevel>Level3</WarningLevel>
+       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+@@ -103,7 +103,7 @@
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>SDL2.lib;libfreetype-6.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalLibraryDirectories>external\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalLibraryDirectories>external\lib\x86;..\..\..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+       <GenerateDebugInformation>true</GenerateDebugInformation>
+       <SubSystem>Windows</SubSystem>
+     </Link>
+@@ -120,9 +120,9 @@
+     </Midl>
+     <ClCompile>
+       <Optimization>Disabled</Optimization>
+-      <AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>external\include;..\..\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <WarningLevel>Level3</WarningLevel>
+       <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+@@ -132,7 +132,7 @@
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>SDL2.lib;libfreetype-6.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalLibraryDirectories>external\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalLibraryDirectories>external\lib\x64;..\..\..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+       <GenerateDebugInformation>true</GenerateDebugInformation>
+       <SubSystem>Windows</SubSystem>
+     </Link>
+@@ -148,9 +148,9 @@
+       </HeaderFileName>
+     </Midl>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>external\include;..\..\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <WarningLevel>Level3</WarningLevel>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+     </ClCompile>
+@@ -159,7 +159,7 @@
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>SDL2.lib;libfreetype-6.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalLibraryDirectories>external\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalLibraryDirectories>external\lib\x86;..\..\..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+       <SubSystem>Windows</SubSystem>
+     </Link>
+   </ItemDefinitionGroup>
+@@ -174,9 +174,9 @@
+       </HeaderFileName>
+     </Midl>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>external\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>external\include;..\..\sdl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <WarningLevel>Level3</WarningLevel>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+     </ClCompile>
+@@ -185,77 +185,11 @@
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>SDL2.lib;libfreetype-6.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalLibraryDirectories>external\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalLibraryDirectories>external\lib\x64;..\..\..\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+       <SubSystem>Windows</SubSystem>
+     </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+-    <CustomBuild Include="external\lib\x86\libfreetype-6.dll">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x86\LICENSE.freetype.txt">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x86\LICENSE.zlib.txt">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x86\zlib1.dll">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x64\libfreetype-6.dll">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x64\LICENSE.freetype.txt">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x64\LICENSE.zlib.txt">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-    <CustomBuild Include="external\lib\x64\zlib1.dll">
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Copying %(Filename)%(Extension)</Message>
+-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">copy %(FullPath) $(SolutionDir)\$(Platform)\$(Configuration)\</Command>
+-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\$(Platform)\$(Configuration)\%(Filename)%(Extension);%(Outputs)</Outputs>
+-    </CustomBuild>
+-  </ItemGroup>
+-  <ItemGroup>
+     <ClCompile Include="..\SDL_ttf.c">
+       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>

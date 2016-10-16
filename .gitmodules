@@ -7,3 +7,21 @@
 [submodule "src/sdl_ttf"]
 	path = src/sdl_ttf
 	url = https://github.com/SDL-mirror/SDL_ttf
+[submodule "src/curl"]
+	path = src/curl
+	url = https://github.com/curl/curl.git
+[submodule "src/jansson"]
+	path = src/jansson
+	url = https://github.com/akheron/jansson.git
+[submodule "src/libpng"]
+	path = src/libpng
+	url = https://github.com/glennrp/libpng.git
+[submodule "src/zlib"]
+	path = src/zlib
+	url = https://github.com/madler/zlib.git
+[submodule "src/speexdsp"]
+	path = src/speexdsp
+	url = https://github.com/xiph/speexdsp.git
+[submodule "src/openssl"]
+	path = src/openssl
+	url = https://github.com/openssl/openssl.git

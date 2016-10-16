@@ -1,0 +1,28 @@
+diff --git a/projects/Windows/VC14/lib/libcurl.tmpl b/projects/Windows/VC14/lib/libcurl.tmpl
+index ab984aa..1d402e4 100644
+--- a/projects/Windows/VC14/lib/libcurl.tmpl
++++ b/projects/Windows/VC14/lib/libcurl.tmpl
+@@ -2211,9 +2211,9 @@
+       <Optimization>MaxSpeed</Optimization>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+-      <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;CURL_DISABLE_LDAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <StringPooling>true</StringPooling>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <FunctionLevelLinking>true</FunctionLevelLinking>
+       <WarningLevel>Level4</WarningLevel>
+     </ClCompile>
+@@ -2254,9 +2254,9 @@
+       <Optimization>MaxSpeed</Optimization>
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+-      <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;BUILDING_LIBCURL;CURL_STATICLIB;USE_WINDOWS_SSPI;USE_SCHANNEL;CURL_DISABLE_LDAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <StringPooling>true</StringPooling>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <FunctionLevelLinking>true</FunctionLevelLinking>
+       <WarningLevel>Level4</WarningLevel>
+     </ClCompile>

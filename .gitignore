@@ -158,6 +158,7 @@ $RECYCLE.BIN/
 #############
 
 artifacts/
+build/
 src/libpng/pnglibconf.h
 src/libpng/projects/vstudio/Release Library/
 src/libpng/projects/vstudio/libpng/Release Library/
@@ -168,7 +169,6 @@ src/libpng/projects/vstudio/pngvalid/Release Library/
 src/libpng/projects/vstudio/zlib/Release Library/
 
 openssl-precompiled.7z
-src/openssl/
 
 src/jansson/MakeFile
 src/jansson/config.status
