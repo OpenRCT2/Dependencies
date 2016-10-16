@@ -1,0 +1,16 @@
+language: c
+
+os: osx
+osx_image: xcode8
+
+before_install:
+  - brew update; brew upgrade
+  - brew install autoconf automake libtool pkgconfig
+  - brew install libpng freetype jansson speex sdl2 sdl2_ttf openssl
+
+script:
+  - git submodule update --init
+  - ./buildmac.sh
+
+after_success:
+  - curl --upload-file artifacts/openrct2-libs-macos.zip https://transfer.sh/openrct2-libs-macos.zip

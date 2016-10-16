@@ -158,6 +158,7 @@ $RECYCLE.BIN/
 #############
 
 artifacts/
+build/
 src/libpng/pnglibconf.h
 src/libpng/projects/vstudio/Release Library/
 src/libpng/projects/vstudio/libpng/Release Library/
