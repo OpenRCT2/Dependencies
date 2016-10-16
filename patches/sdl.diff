@@ -1,0 +1,154 @@
+diff --git a/VisualC/SDL/SDL.vcxproj b/VisualC/SDL/SDL.vcxproj
+index 595e2d4..4e8585b 100644
+--- a/VisualC/SDL/SDL.vcxproj
++++ b/VisualC/SDL/SDL.vcxproj
+@@ -25,16 +25,16 @@
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+-    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <ConfigurationType>StaticLibrary</ConfigurationType>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+   <ImportGroup Label="ExtensionSettings">
+@@ -85,7 +85,7 @@
+       </Command>
+     </PreBuildEvent>
+     <Midl>
+-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_DEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <MkTypLibCompatible>true</MkTypLibCompatible>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <TargetEnvironment>Win32</TargetEnvironment>
+@@ -95,8 +95,8 @@
+       <Optimization>Disabled</Optimization>
+       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>_DEBUG;_WINDOWS;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <BufferSecurityCheck>false</BufferSecurityCheck>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+       <WarningLevel>Level3</WarningLevel>
+@@ -105,7 +105,7 @@
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+     </ClCompile>
+     <ResourceCompile>
+-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_DEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -116,7 +116,7 @@
+   </ItemDefinitionGroup>
+   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+     <Midl>
+-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_DEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <MkTypLibCompatible>true</MkTypLibCompatible>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <TargetEnvironment>X64</TargetEnvironment>
+@@ -126,8 +126,8 @@
+       <Optimization>Disabled</Optimization>
+       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>_DEBUG;_WINDOWS;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <BufferSecurityCheck>false</BufferSecurityCheck>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+       <WarningLevel>Level3</WarningLevel>
+@@ -136,7 +136,7 @@
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+     </ClCompile>
+     <ResourceCompile>
+-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_DEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -151,7 +151,7 @@
+       </Command>
+     </PreBuildEvent>
+     <Midl>
+-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <MkTypLibCompatible>true</MkTypLibCompatible>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <TargetEnvironment>Win32</TargetEnvironment>
+@@ -160,8 +160,8 @@
+     <ClCompile>
+       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>NDEBUG;_WINDOWS;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <BufferSecurityCheck>false</BufferSecurityCheck>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+       <WarningLevel>Level3</WarningLevel>
+@@ -170,7 +170,7 @@
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+     </ClCompile>
+     <ResourceCompile>
+-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -183,7 +183,7 @@
+   </ItemDefinitionGroup>
+   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+     <Midl>
+-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <MkTypLibCompatible>true</MkTypLibCompatible>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <TargetEnvironment>X64</TargetEnvironment>
+@@ -192,8 +192,8 @@
+     <ClCompile>
+       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <PreprocessorDefinitions>NDEBUG;_WINDOWS;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+       <BufferSecurityCheck>false</BufferSecurityCheck>
+       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+       <WarningLevel>Level3</WarningLevel>
+@@ -202,7 +202,7 @@
+       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+     </ClCompile>
+     <ResourceCompile>
+-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>NDEBUG;HAVE_LIBC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ResourceCompile>
+     <Link>
+       <AdditionalDependencies>winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+diff --git a/include/begin_code.h b/include/begin_code.h
+index 04e78c6..dbda2c5 100644
+--- a/include/begin_code.h
++++ b/include/begin_code.h
+@@ -59,7 +59,7 @@
+ #    define DECLSPEC    __declspec(dllimport)
+ #   endif
+ #  else
+-#   define DECLSPEC __declspec(dllexport)
++#   define DECLSPEC
+ #  endif
+ # else
+ #  if defined(__GNUC__) && __GNUC__ >= 4

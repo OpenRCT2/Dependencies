@@ -67,27 +67,15 @@ Copy-Item -Force ".\src\jansson\lib\Release\jansson.lib" $binDir
 
 # Build SDL2
 Write-Host "Building SDL2..." -ForegroundColor Cyan
-
-# Patch vcxproj
-$vcxprojPath = ".\src\sdl\VisualC\SDL\SDL.vcxproj"
-(Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace('%(PreprocessorDefinitions)', 'HAVE_LIBC;%(PreprocessorDefinitions)') | Set-Content $vcxprojPath
-msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+git apply --directory=src\sdl patches\sdl.diff
+msbuild ".\src\sdl\VisualC\SDL\SDL.vcxproj" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\sdl\VisualC\SDL\x64\Release\SDL2.lib" $binDir
 
 # Build SDL2_TTF
 Write-Host "Building SDL2_TTF..." -ForegroundColor Cyan
-
-# Patch vcxproj
-$vcxprojPath = ".\src\sdl_ttf\VisualC\SDL_ttf.vcxproj"
-(Get-Content $vcxprojPath).Replace('<ConfigurationType>DynamicLibrary</ConfigurationType>', '<ConfigurationType>StaticLibrary</ConfigurationType>') | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace('<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>', '<RuntimeLibrary>MultiThreaded</RuntimeLibrary>') | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace("external\include", "external\include;..\..\sdl\include") | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath).Replace("external\lib\x64", "external\lib\x64;..\..\..\$binDir") | Set-Content $vcxprojPath
-(Get-Content $vcxprojPath -Raw) -replace "<CustomBuild(.|\n|\r)+?<\/CustomBuild>", "" | Set-Content $vcxprojPath
-msbuild $vcxprojPath "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+git apply --directory=src\sdl_ttf patches\sdl_ttf.diff
+msbuild ".\src\sdl_ttf\VisualC\SDL_ttf.vcxproj" "/p:Configuration=Release" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Write-Host
 Copy-Item -Force ".\src\sdl_ttf\VisualC\x64\Release\SDL2_ttf.lib" $binDir
 
