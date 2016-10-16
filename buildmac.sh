@@ -20,7 +20,7 @@ cd src
     ./autogen.sh
     eval ./configure $CONFIGUREOPTS --disable-unversioned-links
     eval $COMMONMAKE
-    install_name_tool -id @rpath/libpng.dylib "$PREFIXDIR/lib/libpng16.dylib"
+    install_name_tool -id @rpath/libpng16.dylib "$PREFIXDIR/lib/libpng16.dylib"
   cd ..
   
   echo -e "\n\nBuilding Freetype2 ...\n\n"
