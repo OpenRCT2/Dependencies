@@ -22,3 +22,6 @@
 [submodule "src/speexdsp"]
 	path = src/speexdsp
 	url = https://github.com/xiph/speexdsp.git
+[submodule "src/openssl"]
+	path = src/openssl
+	url = https://github.com/openssl/openssl.git

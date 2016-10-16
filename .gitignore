@@ -168,7 +168,6 @@ src/libpng/projects/vstudio/pngvalid/Release Library/
 src/libpng/projects/vstudio/zlib/Release Library/
 
 openssl-precompiled.7z
-src/openssl/
 
 src/jansson/MakeFile
 src/jansson/config.status
