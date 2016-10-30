@@ -38,6 +38,11 @@ New-Item -Force -ItemType Directory $binDir       > $null
 New-Item -Force -ItemType Directory $artifactsDir > $null
 
 # Build breakpad
+$env:DEPOT_TOOLS_UPDATE=0
+Push-Location "src\breakpad"; ..\depot_tools\gclient.bat sync; Pop-Location
+git apply --directory=src\breakpad\src --ignore-whitespace patches\breakpad.diff
+Push-Location "src\breakpad"; ..\depot_tools\gclient.bat runhooks; Pop-Location
+
 Write-Host "Building breakpad..." -ForegroundColor Cyan
 msbuild ".\src\breakpad\src\src\client\windows\breakpad_client.sln" "/p:Configuration=Release" "/p:Platform=Win32" "/p:PlatformToolset=v140" "/v:Minimal"
 Copy-Item -Force ".\src\breakpad\src\src\client\windows\Release\lib\common.lib" $binDir

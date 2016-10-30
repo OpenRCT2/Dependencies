@@ -1,0 +1,181 @@
+diff --git a/src/client/windows/breakpad_client.gyp b/src/client/windows/breakpad_client.gyp
+index 6479753..5cab6fb 100644
+--- a/src/client/windows/breakpad_client.gyp
++++ b/src/client/windows/breakpad_client.gyp
+@@ -41,7 +41,13 @@
+         './unittests/client_tests.gyp:*',
+         './unittests/testing.gyp:*',
+         './tests/crash_generation_app/crash_generation_app.gyp:*',
+-      ]
++      ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+     {
+       'target_name': 'common',
+@@ -60,7 +66,13 @@
+         '<(DEPTH)/common/windows/http_upload.cc',
+         '<(DEPTH)/common/windows/http_upload.h',
+         '<(DEPTH)/common/windows/string_utils.cc',
+-      ]
++      ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     }
+   ]
+ }
+diff --git a/src/client/windows/crash_generation/crash_generation.gyp b/src/client/windows/crash_generation/crash_generation.gyp
+index ba34376..894253b 100644
+--- a/src/client/windows/crash_generation/crash_generation.gyp
++++ b/src/client/windows/crash_generation/crash_generation.gyp
+@@ -46,6 +46,12 @@
+       'dependencies': [
+         '../breakpad_client.gyp:common'
+       ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+     {
+       'target_name': 'crash_generation_client',
+@@ -58,6 +64,12 @@
+         'crash_generation_client.cc',
+         'crash_generation_server.h',
+       ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+   ],
+ }
+diff --git a/src/client/windows/handler/exception_handler.gyp b/src/client/windows/handler/exception_handler.gyp
+index c573327..bb48e2a 100644
+--- a/src/client/windows/handler/exception_handler.gyp
++++ b/src/client/windows/handler/exception_handler.gyp
+@@ -41,7 +41,13 @@
+       'dependencies': [
+         '../breakpad_client.gyp:common',
+         '../crash_generation/crash_generation.gyp:crash_generation_server',
+-      ]
++      ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+   ],
+ }
+diff --git a/src/client/windows/sender/crash_report_sender.gyp b/src/client/windows/sender/crash_report_sender.gyp
+index dc8583a..005c0a7 100644
+--- a/src/client/windows/sender/crash_report_sender.gyp
++++ b/src/client/windows/sender/crash_report_sender.gyp
+@@ -41,6 +41,12 @@
+       'dependencies': [
+         '../breakpad_client.gyp:common'
+       ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+   ],
+ }
+diff --git a/src/client/windows/tests/crash_generation_app/crash_generation_app.gyp b/src/client/windows/tests/crash_generation_app/crash_generation_app.gyp
+index 3ce307d..fa6f6ec 100644
+--- a/src/client/windows/tests/crash_generation_app/crash_generation_app.gyp
++++ b/src/client/windows/tests/crash_generation_app/crash_generation_app.gyp
+@@ -57,7 +57,11 @@
+         'VCLinkerTool': {
+           'SubSystem': '2',  # Windows Subsystem as opposed to a console app
+         },
+-      },
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     }
+   ]
+ }
+diff --git a/src/client/windows/unittests/client_tests.gyp b/src/client/windows/unittests/client_tests.gyp
+index b13603e..6894f37 100644
+--- a/src/client/windows/unittests/client_tests.gyp
++++ b/src/client/windows/unittests/client_tests.gyp
+@@ -52,7 +52,13 @@
+         '../crash_generation/crash_generation.gyp:crash_generation_client',
+         '../handler/exception_handler.gyp:exception_handler',
+ 	'processor_bits',
+-      ]
++      ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+     {
+       'target_name': 'processor_bits',
+@@ -74,7 +80,13 @@
+         '<(DEPTH)/processor/minidump.cc',
+         '<(DEPTH)/processor/pathname_stripper.cc',
+         '<(DEPTH)/processor/proc_maps_linux.cc',
+-      ]
++      ],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     }
+   ],
+ }
+diff --git a/src/client/windows/unittests/testing.gyp b/src/client/windows/unittests/testing.gyp
+index 141d0ed..38cd4d5 100644
+--- a/src/client/windows/unittests/testing.gyp
++++ b/src/client/windows/unittests/testing.gyp
+@@ -55,6 +55,12 @@
+         'defines': ['_VARIADIC_MAX=10'],
+       },
+       'defines': ['_VARIADIC_MAX=10'],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+     {
+       'target_name': 'gmock',
+@@ -77,6 +83,12 @@
+         'defines': ['_VARIADIC_MAX=10'],
+       },
+       'defines': ['_VARIADIC_MAX=10'],
++      'msvs_settings': {
++        'VCCLCompilerTool': {
++          'WarnAsError': 'true',
++          'DisableSpecificWarnings': ['4091', '4189']
++        }
++      }
+     },
+ 
+   ],
