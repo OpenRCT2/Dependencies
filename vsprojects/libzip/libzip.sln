@@ -1,0 +1,22 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libzip", "libzip.vcxproj", "{5716F715-D80B-4B3B-923B-53C9CBA60B11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release Static|Win32 = Release Static|Win32
+		Release Static|x64 = Release Static|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5716F715-D80B-4B3B-923B-53C9CBA60B11}.Release Static|Win32.ActiveCfg = Release Static|Win32
+		{5716F715-D80B-4B3B-923B-53C9CBA60B11}.Release Static|Win32.Build.0 = Release Static|Win32
+		{5716F715-D80B-4B3B-923B-53C9CBA60B11}.Release Static|x64.ActiveCfg = Release Static|x64
+		{5716F715-D80B-4B3B-923B-53C9CBA60B11}.Release Static|x64.Build.0 = Release Static|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
