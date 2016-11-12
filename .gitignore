@@ -168,6 +168,9 @@ src/libpng/projects/vstudio/pngunknown/Release Library/
 src/libpng/projects/vstudio/pngvalid/Release Library/
 src/libpng/projects/vstudio/zlib/Release Library/
 
+src/breakpad/src
+src/breakpad/.gclient_entries
+
 openssl-precompiled.7z
 
 src/jansson/MakeFile
