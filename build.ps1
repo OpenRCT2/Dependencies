@@ -138,6 +138,7 @@ Push-Location ".\bin"
     ".\jansson.lib" `
     ".\libpng16.lib" `
     ".\zlib.lib" `
+    ".\libzip.lib" `
     ".\libspeexdsp.lib" `
     ".\libcurl.lib" `
     ".\libeay32.lib" `
