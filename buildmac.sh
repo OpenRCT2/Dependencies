@@ -39,6 +39,14 @@ cd src
     install_name_tool -id @rpath/libjansson.dylib "$PREFIXDIR/lib/libjansson.dylib"
   cd ..
   
+  echo -e "\n\nBuilding libzip ...\n\n"
+  cd libzip
+    autoreconf -i
+    eval ./configure $CONFIGUREOPTS
+    eval $COMMONMAKE
+    install_name_tool -id @rpath/libzip.dylib "$PREFIXDIR/lib/libzip.dylib"
+  cd ..
+  
   echo -e "\n\nBuilding speexdsp ...\n\n"
   cd speexdsp
     ./autogen.sh
@@ -81,17 +89,20 @@ mkdir artifacts
 
 # Manually copy headers wanted. Mostly to exclude freetype, which isn't directly used
 mkdir artifacts/include
-cp -R build/include/libpng16   artifacts/include/
-cp    build/include/jansson*.h artifacts/include/
-cp -R build/include/speex      artifacts/include/
-cp -R build/include/SDL2       artifacts/include/
-cp -R build/include/openssl    artifacts/include/
+cp -R build/include/libpng16     artifacts/include/
+cp    build/include/jansson*.h   artifacts/include/
+cp    build/include/zip.h        artifacts/include/
+cp -R build/lib/libzip/include/* artifacts/include/
+cp -R build/include/speex        artifacts/include/
+cp -R build/include/SDL2         artifacts/include/
+cp -R build/include/openssl      artifacts/include/
 
 # Manually copy libs wanted. Removes static libraries and versioned libs
 mkdir artifacts/lib
 cp build/lib/libpng16.dylib    artifacts/lib/
 cp build/lib/libfreetype.dylib artifacts/lib/
 cp build/lib/libjansson.dylib  artifacts/lib/
+cp build/lib/libzip.dylib      artifacts/lib/
 cp build/lib/libspeexdsp.dylib artifacts/lib/
 cp build/lib/libSDL2.dylib     artifacts/lib/
 cp build/lib/libSDL2_ttf.dylib artifacts/lib/
