@@ -61,6 +61,7 @@ CopyHeaders ".\src\sdl_ttf\*.h"                                          "sdl_tt
 CopyHeaders ".\src\libpng\*.h"                                           "libpng"
 CopyHeaders ".\src\zlib\*.h"                                             "zlib"
 CopyHeaders ".\src\libzip\lib\*.h"                                       "libzip"
+CopyHeaders ".\vsprojects\libzip\zipconf.h"                              "libzip"
 CopyHeaders ".\src\jansson\include\*.h"                                  "jansson"
 CopyHeaders ".\src\speexdsp\win32\*.h"                                   "libspeex"
 CopyHeaders ".\src\speexdsp\include\speex\*.h"                           "libspeex\speex"
