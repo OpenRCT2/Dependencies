@@ -6,5 +6,5 @@ build_script:
 
     .\createpkg.ps1
 artifacts:
-- path: .\artifacts\openrct2-libs-vs2015.zip
+- path: artifacts\openrct2-libs-vs2015.zip
   name: OpenRCT2
