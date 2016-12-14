@@ -92,6 +92,11 @@ Write-Host
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\libpng16.lib" $binDir
 Copy-Item -Force ".\src\libpng\projects\vstudio\x64\Release Library\zlib.lib"     $binDir
 
+# Build libzip
+Write-Host "Building libzip..." -ForegroundColor Cyan
+msbuild ".\vsprojects\libzip\libzip.sln" "/p:Configuration=Release Static" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
+Copy-Item -Force ".\vsprojects\libzip\x64\Release Static\libzip.lib" $binDir
+
 # Build libspeexdsp
 Write-Host "Building libspeexdsp..." -ForegroundColor Cyan
 msbuild ".\vsprojects\speexdsp\libspeexdsp.sln" "/p:Configuration=Release Static" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
@@ -133,6 +138,7 @@ Push-Location ".\bin"
     ".\jansson.lib" `
     ".\libpng16.lib" `
     ".\zlib.lib" `
+    ".\libzip.lib" `
     ".\libspeexdsp.lib" `
     ".\libcurl.lib" `
     ".\libeay32.lib" `

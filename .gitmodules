@@ -26,5 +26,8 @@
 	path = src/openssl
 	url = https://github.com/openssl/openssl.git
 [submodule "src/depot_tools"]
-  path = src/depot_tools
-  url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
+	path = src/depot_tools
+	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
+[submodule "src/libzip"]
+	path = src/libzip
+	url = https://github.com/nih-at/libzip.git
