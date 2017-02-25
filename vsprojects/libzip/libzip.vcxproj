@@ -59,7 +59,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\src\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\src\libzip\lib\gladman-fcrypt;..\..\src\zlib</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -79,7 +79,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.;..\..\src\zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\src\libzip\lib\gladman-fcrypt;..\..\src\zlib</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -90,7 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\libzip\lib\mkstemp.c" />
+    <ClCompile Include="..\..\src\libzip\lib\gladman-fcrypt.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_add.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_add_dir.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_add_entry.c" />
@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\src\libzip\lib\zip_file_rename.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_file_replace.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_file_set_comment.c" />
+    <ClCompile Include="..\..\src\libzip\lib\zip_file_set_encryption.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_file_set_external_attributes.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_file_set_mtime.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_file_strerror.c" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\src\libzip\lib\zip_name_locate.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_new.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_open.c" />
+    <ClCompile Include="..\..\src\libzip\lib\zip_random_win32.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_rename.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_replace.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_set_archive_comment.c" />
@@ -183,6 +185,8 @@
     <ClCompile Include="..\..\src\libzip\lib\zip_source_win32utf8.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_source_win32w.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_source_window.c" />
+    <ClCompile Include="..\..\src\libzip\lib\zip_source_winzip_aes_decode.c" />
+    <ClCompile Include="..\..\src\libzip\lib\zip_source_winzip_aes_encode.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_source_write.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_source_zip.c" />
     <ClCompile Include="..\..\src\libzip\lib\zip_source_zip_new.c" />
@@ -201,6 +205,7 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="zipconf.h" />
     <ClInclude Include="..\..\src\libzip\lib\compat.h" />
+    <ClInclude Include="..\..\src\libzip\lib\gladman-fcrypt.h" />
     <ClInclude Include="..\..\src\libzip\lib\zip.h" />
     <ClInclude Include="..\..\src\libzip\lib\zipint.h" />
     <ClInclude Include="..\..\src\libzip\lib\zipwin32.h" />

@@ -31,3 +31,6 @@
 [submodule "src/libzip"]
 	path = src/libzip
 	url = https://github.com/nih-at/libzip.git
+[submodule "src/boost"]
+	path = src/boost
+	url = https://github.com/LRFLEW/OpenRCT2-Boost.git

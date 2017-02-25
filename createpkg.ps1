@@ -67,6 +67,7 @@ CopyHeaders ".\src\speexdsp\win32\*.h"                                   "libspe
 CopyHeaders ".\src\speexdsp\include\speex\*.h"                           "libspeex\speex"
 CopyHeaders ".\src\curl\include\curl\*.h"                                "curl"
 CopyHeaders ".\src\openssl\include\openssl\*.h"                          "openssl"
+CopyHeaders ".\src\boost\boost\*"                                        "boost"
 
 Write-Host "-----------------------------------------------------" -ForegroundColor Cyan
 

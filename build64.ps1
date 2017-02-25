@@ -102,6 +102,15 @@ Write-Host "Building libspeexdsp..." -ForegroundColor Cyan
 msbuild ".\vsprojects\speexdsp\libspeexdsp.sln" "/p:Configuration=Release Static" "/p:Platform=x64" "/p:PlatformToolset=v140" "/v:minimal"
 Copy-Item -Force ".\vsprojects\speexdsp\x64\Release Static\libspeexdsp.lib" $binDir
 
+# Build Boost
+Write-Host "Building Boost..." -ForegroundColor Cyan
+pushd .\src\boost
+    .\bootstrap.bat
+    .\b2 --layout=system --with-filesystem toolset=msvc address-model=64 variant=release link=static  runtime-link=static threading=multi
+popd
+Copy-Item -Force ".\src\boost\stage\lib\libboost_filesystem.lib" $binDir
+Copy-Item -Force ".\src\boost\stage\lib\libboost_system.lib"     $binDir
+
 if ($buildOpenSSL)
 {
 	# Build OpenSSL
@@ -142,6 +151,8 @@ Push-Location ".\bin"
     ".\libspeexdsp.lib" `
     ".\libcurl.lib" `
     ".\libeay32.lib" `
+    ".\libboost_filesystem.lib" `
+    ".\libboost_system.lib" `
     ".\common.lib" `
     ".\crash_report_sender.lib" `
     ".\exception_handler.lib" `

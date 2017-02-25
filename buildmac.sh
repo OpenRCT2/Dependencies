@@ -6,6 +6,7 @@ if [ "$1" == "32bit" ]; then BIT32=true; fi
 # Handle 32-vs-64 bit differences here to reduce redundancy
 if $BIT32; then BITCFLAGS="-m32"; else BITCFLAGS="-m64"; fi
 if $BIT32; then OPENSSLPLATFORM="darwin-i386-cc"; else OPENSSLPLATFORM="darwin64-x86_64-cc"; fi
+if $BIT32; then BOOSTADDRESS="address-model=32"; else BOOSTADDRESS="address-model=64"; fi
 
 # Reduce redundancy by putting the shared configuration options here
 PREFIXDIR="$(pwd)/build"
@@ -81,6 +82,14 @@ cd src
     install_name_tool -id @rpath/libssl.dylib "$PREFIXDIR/lib/libssl.dylib"
   cd ..
   
+  echo -e "\n\nBuilding Boost ...\n\n"
+  cd boost
+    ./bootstrap.sh
+    eval ./b2 --prefix="$PREFIXDIR" --layout=system --with-filesystem toolset=darwin $BOOSTADDRESS variant=release link=shared threading=multi install
+    install_name_tool -id @rpath/libboost_filesystem.dylib "$PREFIXDIR/lib/libboost_filesystem.dylib"
+    install_name_tool -id @rpath/libboost_system.dylib "$PREFIXDIR/lib/libboost_system.dylib"
+  cd ..
+  
 cd ..
 
 # We don't need a lot of what was just made, so copy only what's wanted
@@ -96,17 +105,20 @@ cp -R build/lib/libzip/include/* artifacts/include/
 cp -R build/include/speex        artifacts/include/
 cp -R build/include/SDL2         artifacts/include/
 cp -R build/include/openssl      artifacts/include/
+cp -R build/include/boost        artifacts/include/
 
 # Manually copy libs wanted. Removes static libraries and versioned libs
 mkdir artifacts/lib
-cp build/lib/libpng16.dylib    artifacts/lib/
-cp build/lib/libfreetype.dylib artifacts/lib/
-cp build/lib/libjansson.dylib  artifacts/lib/
-cp build/lib/libzip.dylib      artifacts/lib/
-cp build/lib/libspeexdsp.dylib artifacts/lib/
-cp build/lib/libSDL2.dylib     artifacts/lib/
-cp build/lib/libSDL2_ttf.dylib artifacts/lib/
-cp build/lib/libcrypto.dylib   artifacts/lib/
+cp build/lib/libpng16.dylib            artifacts/lib/
+cp build/lib/libfreetype.dylib         artifacts/lib/
+cp build/lib/libjansson.dylib          artifacts/lib/
+cp build/lib/libzip.dylib              artifacts/lib/
+cp build/lib/libspeexdsp.dylib         artifacts/lib/
+cp build/lib/libSDL2.dylib             artifacts/lib/
+cp build/lib/libSDL2_ttf.dylib         artifacts/lib/
+cp build/lib/libcrypto.dylib           artifacts/lib/
+cp build/lib/libboost_filesystem.dylib artifacts/lib/
+cp build/lib/libboost_system.dylib     artifacts/lib/
 
 # Make final archive
 cd artifacts && zip -rX openrct2-libs-macos.zip include lib && cd ..
