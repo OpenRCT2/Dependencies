@@ -1,8 +1,11 @@
 mkdir %VCPKG%
 pushd %VCPKG%
   REM Install vcpkg
-  git clone -q https://github.com/Microsoft/vcpkg.git .
-  call .\bootstrap-vcpkg.bat
+  IF NOT EXIST %VCPKG%\.git (
+    git clone -q https://github.com/Microsoft/vcpkg.git .
+    call .\bootstrap-vcpkg.bat
+  )
+  git pull
 
   REM Install x86 libraries
   .\vcpkg install curl:x86-windows-static
