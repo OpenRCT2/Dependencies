@@ -20,13 +20,13 @@ pushd %VCPKG%
 
   REM Install x64 libraries
   REM .\vcpkg install curl:x64-windows-static
-  REM .\vcpkg install freetype:x64-windows-static
-  REM .\vcpkg install libpng:x64-windows-static
-  REM .\vcpkg install sdl2:x64-windows-static
-  REM .\vcpkg install openssl:x64-windows-static
-  REM .\vcpkg install zlib:x64-windows-static
+  .\vcpkg install freetype:x64-windows-static
+  .\vcpkg install libpng:x64-windows-static
+  .\vcpkg install sdl2:x64-windows-static
+  .\vcpkg install openssl:x64-windows-static
+  .\vcpkg install zlib:x64-windows-static
   REM .\vcpkg install jansson:x64-windows-static
   REM .\vcpkg install libspeex:x64-windows-static
-  REM .\vcpkg install libzip:x64-windows-static
+  .\vcpkg install libzip:x64-windows-static
 
 popd
