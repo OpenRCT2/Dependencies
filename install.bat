@@ -8,7 +8,7 @@ pushd %VCPKG%
   git pull
 
   REM Install x86 libraries
-  REM .\vcpkg install curl:x86-windows-static
+  .\vcpkg install curl:x86-windows-static
   .\vcpkg install freetype:x86-windows-static
   .\vcpkg install libpng:x86-windows-static
   .\vcpkg install sdl2:x86-windows-static
@@ -19,7 +19,7 @@ pushd %VCPKG%
   .\vcpkg install libzip:x86-windows-static
 
   REM Install x64 libraries
-  REM .\vcpkg install curl:x64-windows-static
+  .\vcpkg install curl:x64-windows-static
   .\vcpkg install freetype:x64-windows-static
   .\vcpkg install libpng:x64-windows-static
   .\vcpkg install sdl2:x64-windows-static
