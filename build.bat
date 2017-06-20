@@ -1,6 +1,6 @@
 REM add linker to PATH
 env
-set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.10.25017\bin\Host%1\%1;%PATH%
+set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\Host%1\%1;%PATH%
 
 set packages=%VCPKG%\installed\%1-windows-static
 set artifacts=%CD%\artifacts
