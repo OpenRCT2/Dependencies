@@ -14,7 +14,7 @@ pushd %VCPKG%
   .\vcpkg install sdl2:x86-windows-static
   .\vcpkg install openssl:x86-windows-static
   .\vcpkg install zlib:x86-windows-static
-  REM .\vcpkg install jansson:x86-windows-static
+  .\vcpkg install jansson:x86-windows-static
   REM .\vcpkg install libspeex:x86-windows-static
   .\vcpkg install libzip:x86-windows-static
 
@@ -25,7 +25,7 @@ pushd %VCPKG%
   .\vcpkg install sdl2:x64-windows-static
   .\vcpkg install openssl:x64-windows-static
   .\vcpkg install zlib:x64-windows-static
-  REM .\vcpkg install jansson:x64-windows-static
+  .\vcpkg install jansson:x64-windows-static
   REM .\vcpkg install libspeex:x64-windows-static
   .\vcpkg install libzip:x64-windows-static
 
