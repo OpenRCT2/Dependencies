@@ -12,6 +12,7 @@ pushd %VCPKG%
 
   REM Install x86 libraries
   .\vcpkg install curl:x86-windows-static
+  .\vcpkg install discord-rpc:x86-windows-static
   .\vcpkg install freetype:x86-windows-static
   .\vcpkg install jansson:x86-windows-static
   .\vcpkg install libpng:x86-windows-static
@@ -23,6 +24,7 @@ pushd %VCPKG%
 
   REM Install x64 libraries
   .\vcpkg install curl:x64-windows-static
+  .\vcpkg install discord-rpc:x64-windows-static
   .\vcpkg install freetype:x64-windows-static
   .\vcpkg install jansson:x64-windows-static
   .\vcpkg install libpng:x64-windows-static
