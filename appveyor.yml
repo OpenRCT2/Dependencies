@@ -1,12 +1,37 @@
 version: 0.1.0.{build}
 os: Visual Studio 2017
 cache:
-- C:\vcpkg
+  - C:\tools\vcpkg
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  VCPKG: C:\vcpkg
+
 install:
-- cmd: install.bat
+  - cd C:\tools\vcpkg
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - vcpkg remove --outdated --recurse
+  - vcpkg install curl:x86-windows-static
+  - vcpkg install discord-rpc:x86-windows-static
+  - vcpkg install freetype:x86-windows-static
+  - vcpkg install jansson:x86-windows-static
+  - vcpkg install libpng:x86-windows-static
+  - vcpkg install libzip:x86-windows-static
+  - vcpkg install openssl:x86-windows-static
+  - vcpkg install sdl2:x86-windows-static
+  - vcpkg install speexdsp:x86-windows-static
+  - vcpkg install zlib:x86-windows-static
+  - vcpkg install curl:x64-windows-static
+  - vcpkg install discord-rpc:x64-windows-static
+  - vcpkg install freetype:x64-windows-static
+  - vcpkg install jansson:x64-windows-static
+  - vcpkg install libpng:x64-windows-static
+  - vcpkg install libzip:x64-windows-static
+  - vcpkg install openssl:x64-windows-static
+  - vcpkg install sdl2:x64-windows-static
+  - vcpkg install speexdsp:x64-windows-static
+  - vcpkg install zlib:x64-windows-static
+  - cd C:\projects\Dependencies
+
 build_script:
 - cmd: >-
     build.bat x86
