@@ -4,17 +4,23 @@ cache:
 - C:\vcpkg
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  VCPKG: C:\vcpkg
+  matrix:
+    - TRIPLET: x86-windows-static-winssl
+    - TRIPLET: x64-windows-static-winssl
+#    - TRIPLET: x86-uwp
+#    - TRIPLET: x64-uwp
+#    - TRIPLET: arm-uwp
+#    - TRIPLET: arm-windows
+#    - TRIPLET: arm64-windows
+#    - TRIPLET: arm64-uwp
 install:
 - cmd: install.bat
 build_script:
 - cmd: >-
-    build.bat x86
-
-    build.bat x64
-
-    package.bat
-
+    build.bat
+test: off
 artifacts:
-- path: artifacts\openrct2-libs-vs2017.zip
-  name: OpenRCT2
+- path: '**\vcpkg*.zip'
+  name: Zip archive
+- path: '**\vcpkg*.nupkg'
+  name: NuGet archive
