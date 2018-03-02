@@ -1,9 +1,10 @@
 set packages=vcpkg\installed\%TRIPLET%
-set outzip=openrct2-libs-%TRIPLET%.zip
+set outarchive=openrct2-libs-%TRIPLET%
 
 pushd %packages%
 
 REM create zip
-7z a -tzip -mx9 -mtc=off "%outZip%" "*"
+7z a -tzip -mx9 -mtc=off "%outarchive%.zip" "*"
+7z a -t7z -mx9 -mtc=off "%outarchive%.7z" "*"
 
 popd
