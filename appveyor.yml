@@ -18,9 +18,13 @@ install:
 build_script:
 - cmd: >-
     build.bat
+
+    package.bat
 test: off
 artifacts:
+- path: '**\openrct2*.zip'
+  name: Zip simplified archive
 - path: '**\vcpkg*.zip'
-  name: Zip archive
+  name: Zip vcpkg archive
 - path: '**\vcpkg*.nupkg'
-  name: NuGet archive
+  name: NuGet vcpkg archive
