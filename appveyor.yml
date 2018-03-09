@@ -4,6 +4,7 @@ cache:
 - C:\vcpkg
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  version: 16
   matrix:
     - TRIPLET: x86-windows-static-winssl
     - TRIPLET: x64-windows-static-winssl
@@ -24,9 +25,17 @@ test: off
 artifacts:
 - path: '**\openrct2*.zip'
   name: Zip simplified archive
-- path: '**\openrct2*.7z'
-  name: 7z simplified archive
 - path: '**\vcpkg*.zip'
   name: Zip vcpkg archive
 - path: '**\vcpkg*.nupkg'
   name: NuGet vcpkg archive
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: 49K/y43epwh5Sb8uY1l/TbIFRPcEq6fraQaYGS0bgWQJfONznd6hCqPUCg7WSX16
+  artifact: '**\openrct2-libs-v$(version).zip'
+  draft: true
+  prerelease: true
+  on:
+    branch: master
+    appveyor_repo_tag: true
