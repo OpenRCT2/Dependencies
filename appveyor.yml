@@ -33,7 +33,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 49K/y43epwh5Sb8uY1l/TbIFRPcEq6fraQaYGS0bgWQJfONznd6hCqPUCg7WSX16
-  artifact: '**\openrct2-libs-v$(version).zip'
+  artifact: '**\openrct2-libs-v$(version)*.zip'
   draft: true
   prerelease: true
   on:
