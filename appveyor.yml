@@ -1,13 +1,13 @@
 version: 0.1.0.{build}
-os: Visual Studio 2017
+os: Visual Studio 2019
 cache:
 - C:\vcpkg
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  version: 18
+  version: 19
   matrix:
-    - TRIPLET: x86-windows-static-winssl
-    - TRIPLET: x64-windows-static-winssl
+    - TRIPLET: x86-windows-static
+    - TRIPLET: x64-windows-static
 #    - TRIPLET: x86-uwp
 #    - TRIPLET: x64-uwp
 #    - TRIPLET: arm-uwp
