@@ -4,7 +4,7 @@ cache:
 - C:\vcpkg
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  version: 19
+  version: 20
   matrix:
     - TRIPLET: x86-windows-static
     - TRIPLET: x64-windows-static
@@ -33,9 +33,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: uXuMd3cu0eDp/Sz+XPaIVyROW36oLcxY0u72smAOAcn6LSViamfbxf9WpgcxQp1z
-  artifact: '**\openrct2-libs-v$(version)*.zip'
+  artifact: Zip simplified archive
   draft: true
-  prerelease: true
   on:
-    branch: master
-    appveyor_repo_tag: true
+    APPVEYOR_REPO_TAG: true
