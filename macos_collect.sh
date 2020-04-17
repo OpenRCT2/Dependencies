@@ -18,12 +18,14 @@ cp -r /usr/local/include/SDL2/ include/SDL2/
 cp -r /usr/local/include/speex/ include/speex/
 cp -r /usr/local/include/unicode/ include/unicode/
 cp -r /usr/local/opt/openssl@1.1/include/openssl/ include/openssl/
+cp /usr/local/include/{duk_config,duktape}*.h include/
 cp /usr/local/include/jansson*.h include/
 cp /usr/local/include/zip*.h include/
 
 # Now, copy the actual libraries themselves.
 mkdir lib/
 cp /usr/local/Cellar/openssl@1.1/*/lib/libcrypto.1.1.dylib lib/libcrypto.dylib
+cp /usr/local/lib/libduktape.so lib/libduktape.dylib
 cp /usr/local/lib/libfreetype.dylib lib/libfreetype.dylib
 cp /usr/local/lib/libicudata.dylib lib/libicudata.dylib
 cp /usr/local/lib/libicuuc.dylib lib/libicuuc.dylib
@@ -38,6 +40,7 @@ chmod 644 lib/*.dylib
 
 # Correct identifiers in dylibs
 install_name_tool -id @rpath/libcrypto.dylib lib/libcrypto.dylib
+install_name_tool -id @rpath/libduktape.dylib lib/libduktape.dylib
 install_name_tool -id @rpath/libfreetype.dylib lib/libfreetype.dylib
 install_name_tool -id @rpath/libicudata.dylib lib/libicudata.dylib
 install_name_tool -id @rpath/libicuuc.dylib lib/libicuuc.dylib
