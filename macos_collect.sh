@@ -14,12 +14,12 @@ set -e
 mkdir include/
 cp -r /usr/local/include/freetype2/ include/freetype2/
 cp -r /usr/local/include/libpng16/ include/libpng16/
+cp -r /usr/local/include/nlohmann/ include/nlohmann/
 cp -r /usr/local/include/SDL2/ include/SDL2/
 cp -r /usr/local/include/speex/ include/speex/
 cp -r /usr/local/include/unicode/ include/unicode/
 cp -r /usr/local/opt/openssl@1.1/include/openssl/ include/openssl/
 cp /usr/local/include/{duk_config,duktape}*.h include/
-cp /usr/local/include/nlohmann/json.hpp include/
 cp /usr/local/include/zip*.h include/
 
 # Now, copy the actual libraries themselves.
