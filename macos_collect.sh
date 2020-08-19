@@ -14,12 +14,12 @@ set -e
 mkdir include/
 cp -r /usr/local/include/freetype2/ include/freetype2/
 cp -r /usr/local/include/libpng16/ include/libpng16/
+cp -r /usr/local/include/nlohmann/ include/nlohmann/
 cp -r /usr/local/include/SDL2/ include/SDL2/
 cp -r /usr/local/include/speex/ include/speex/
 cp -r /usr/local/include/unicode/ include/unicode/
 cp -r /usr/local/opt/openssl@1.1/include/openssl/ include/openssl/
 cp /usr/local/include/{duk_config,duktape}*.h include/
-cp /usr/local/include/jansson*.h include/
 cp /usr/local/include/zip*.h include/
 
 # Now, copy the actual libraries themselves.
@@ -29,7 +29,6 @@ cp /usr/local/lib/libduktape.so lib/libduktape.dylib
 cp /usr/local/lib/libfreetype.dylib lib/libfreetype.dylib
 cp /usr/local/lib/libicudata.dylib lib/libicudata.dylib
 cp /usr/local/lib/libicuuc.dylib lib/libicuuc.dylib
-cp /usr/local/lib/libjansson.dylib lib/libjansson.dylib
 cp /usr/local/lib/libpng16.dylib lib/libpng16.dylib
 cp /usr/local/lib/libSDL2.dylib lib/libSDL2.dylib
 cp /usr/local/lib/libspeexdsp.dylib lib/libspeexdsp.dylib
@@ -44,7 +43,6 @@ install_name_tool -id @rpath/libduktape.dylib lib/libduktape.dylib
 install_name_tool -id @rpath/libfreetype.dylib lib/libfreetype.dylib
 install_name_tool -id @rpath/libicudata.dylib lib/libicudata.dylib
 install_name_tool -id @rpath/libicuuc.dylib lib/libicuuc.dylib
-install_name_tool -id @rpath/libjansson.dylib lib/libjansson.dylib
 install_name_tool -id @rpath/libpng16.dylib lib/libpng16.dylib
 install_name_tool -id @rpath/libSDL2.dylib lib/libSDL2.dylib
 install_name_tool -id @rpath/libspeexdsp.dylib lib/libspeexdsp.dylib

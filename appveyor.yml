@@ -1,7 +1,7 @@
 version: 0.1.0.{build}
 os: Visual Studio 2019
 environment:
-  version: 21
+  version: 25
   matrix:
     - TRIPLET: x86-windows-static
     - TRIPLET: x64-windows-static
