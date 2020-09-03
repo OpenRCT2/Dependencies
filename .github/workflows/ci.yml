@@ -1,8 +1,32 @@
 name: CI
 on: [push, pull_request]
 jobs:
+  createrelease:
+    name: createrelease
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
   windows:
     name: Windows
+    needs: [createrelease]
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -27,32 +51,27 @@ jobs:
           vcpkgGitCommitId: 13f5a3d6159069d216b82695afcd21f7f0bbb827
           vcpkgTriplet: '${{ matrix.triplet }}'
           vcpkgArguments: '${{ matrix.vcpkgPackages }}'
-      - name: Upload libs
+      - name: Upload libs as artifacts
         uses: actions/upload-artifact@v2
         with:
           name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}
           path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\${{ matrix.triplet }}
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: false
-      - uses: papeloto/action-zip@v1
-        with:
-          files: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\installed\${{ matrix.triplet }}
-          dest: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          name: release_url
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
       - name: Upload Release Asset
         id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\${{ matrix.triplet }}
           asset_name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
           asset_content_type: application/zip
