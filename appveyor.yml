@@ -3,13 +3,13 @@ os: Visual Studio 2019
 environment:
   version: 26
   matrix:
-    - TRIPLET: x86-windows-static
-    - TRIPLET: x64-windows-static
+    - TRIPLET: arm64-windows
+    - TRIPLET: arm64-windows-static
 #    - TRIPLET: x86-uwp
-#    - TRIPLET: x64-uwp
+    - TRIPLET: x64-windows-static
 #    - TRIPLET: arm-uwp
 #    - TRIPLET: arm-windows
-    - TRIPLET: arm64-windows
+    - TRIPLET: x86-windows-static
 #    - TRIPLET: arm64-uwp
 install:
 - cmd: install.bat
