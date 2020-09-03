@@ -8,16 +8,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: win32
-            triplet: x86-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
-          - platform: x64
-            triplet: x64-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
-          - platform: arm64
-            triplet: arm64-windows-static
+          - triplet: x86-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - triplet: x64-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - triplet: arm64-windows-static
             # fribidi is disabled due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64
-            vcpkgPackages: 'discord-rpc duktape freetype libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+            vcpkgPackages: 'discord-rpc duktape freetype gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
     env:
       version: 27
     steps:
