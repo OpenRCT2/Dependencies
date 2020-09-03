@@ -44,7 +44,7 @@ jobs:
           prerelease: false
       - uses: papeloto/action-zip@v1
         with:
-          files: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\${{ matrix.triplet }}
+          files: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\installed\${{ matrix.triplet }}
           dest: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
       - name: Upload Release Asset
         id: upload-release-asset
