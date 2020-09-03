@@ -1,0 +1,38 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: win32
+            triplet: x86-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - platform: x64
+            triplet: x64-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - platform: arm64
+            triplet: arm64-windows-static
+            # fribidi is disabled due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64
+            vcpkgPackages: 'discord-rpc duktape freetype libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+    env:
+      CONFIGURATION: Release
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install vcpkg and packages
+        uses: lukka/run-vcpkg@v2
+        id: runvcpkg
+        with:
+          vcpkgGitCommitId: 2f7a104d4d6f1f3790db929f85a4086aa6973d7f
+          vcpkgTriplet: '${{ matrix.triplet }}'
+          vcpkgArguments: '${{ matrix.vcpkgPackages }}'
+      - name: Upload libs
+        uses: actions/upload-artifact@v2
+        with:
+          name: libs-${{ matrix.triplet }}
+          path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\${{ matrix.triplet }}
