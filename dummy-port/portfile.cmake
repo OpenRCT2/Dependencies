@@ -1,3 +1,1 @@
-set(VERSION 1.2.11)
-
 set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
