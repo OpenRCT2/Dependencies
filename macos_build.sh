@@ -9,7 +9,7 @@ vcpkg/bootstrap-vcpkg.sh
 
 TRIPLET="--overlay-triplets=. --triplet=x64-osx-openrct2"
 LIBRARIES="duktape freetype[core,zlib,bzip2,png] libpng libzip[core] nlohmann-json openssl sdl2 speexdsp discord-rpc icu"
-vcpkg/vcpkg install --overlay-ports=./openrct2-ports ${=TRIPLET} ${=LIBRARIES}
+vcpkg/vcpkg install ${=TRIPLET} ${=LIBRARIES}
 
 (
   cd vcpkg/installed/x64-osx-openrct2 &&
