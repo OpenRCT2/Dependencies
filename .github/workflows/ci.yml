@@ -45,7 +45,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install vcpkg and packages
-        uses: lukka/run-vcpkg@v2
+        uses: lukka/run-vcpkg@v6
         id: runvcpkg
         with:
           vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
