@@ -48,7 +48,7 @@ jobs:
         uses: lukka/run-vcpkg@v2
         id: runvcpkg
         with:
-          vcpkgGitCommitId: 13f5a3d6159069d216b82695afcd21f7f0bbb827
+          vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
           vcpkgTriplet: '${{ matrix.triplet }}'
           vcpkgArguments: '${{ matrix.vcpkgPackages }}'
       - name: Upload libs as artifacts
