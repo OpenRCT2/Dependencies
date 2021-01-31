@@ -3,7 +3,6 @@
 easy_install --user pyyaml
 
 git clone -q https://github.com/Microsoft/vcpkg.git
-git -C vcpkg apply ../vcpkg_fixup_pkgconfig.cmake.diff
 
 vcpkg/bootstrap-vcpkg.sh
 
