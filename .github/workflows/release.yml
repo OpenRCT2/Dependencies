@@ -1,0 +1,135 @@
+name: Create Release
+on: 
+  push:
+    tags:
+      - v**
+env:
+  VCPKG_COMMIT_HASH: 401b26c9866a071f645ae57831caa419b2c48be1
+jobs:
+  createrelease:
+    name: createrelease
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.version }}
+          release_name: Release v${{ env.version }}
+          prerelease: false
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+  windows:
+    name: Windows
+    needs: [createrelease]
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - triplet: x86-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - triplet: x64-windows-static
+            vcpkgPackages: 'benchmark breakpad discord-rpc duktape freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+          - triplet: arm64-windows-static
+            # fribidi is disabled due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64
+            vcpkgPackages: 'discord-rpc duktape freetype gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: |
+          chcp 65001 #set code page to utf-8
+          echo ("version=" + $env:GITHUB_REF.replace('refs/tags/v', '')) >> $env:GITHUB_ENV
+      - name: Install vcpkg and packages
+        uses: lukka/run-vcpkg@v6
+        id: runvcpkg
+        with:
+          vcpkgGitCommitId: '${{ env.VCPKG_COMMIT_HASH }}'
+          vcpkgTriplet: '${{ matrix.triplet }}'
+          vcpkgArguments: '${{ matrix.vcpkgPackages }}'
+      - name: Zip stuff
+        run: |
+          pushd ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\${{ matrix.triplet }}
+          7z a -tzip -mx9 -mtc=off ..\openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip "*"
+          popd
+      - name: Upload zip as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        shell: bash
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          asset_name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          asset_content_type: application/zip
+  macos:
+    name: macOS
+    needs: [createrelease]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      - name: Install vcpkg and packages
+        id: macos_build
+        shell: bash
+        run: |
+          export VCPKG_COMMIT_HASH='${{ env.VCPKG_COMMIT_HASH }}'
+          ./macos_build.sh
+      - name: Upload zip as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openrct2-libs-v${{ env.version }}-x64-macos-dylibs.zip
+          path: openrct2-libs-v${{ env.version }}-x64-macos-dylibs.zip
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        shell: bash
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: openrct2-libs-v${{ env.version }}-x64-macos-dylibs.zip
+          asset_name: openrct2-libs-v${{ env.version }}-x64-macos-dylibs.zip
+          asset_content_type: application/zip
+  
