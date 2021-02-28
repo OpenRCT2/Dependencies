@@ -32,6 +32,7 @@ jobs:
   windows:
     name: Windows
     runs-on: windows-latest
+    needs: createrelease
     strategy:
       fail-fast: false
       matrix:
@@ -94,6 +95,7 @@ jobs:
   macos:
     name: macOS
     runs-on: macos-latest
+    needs: createrelease
     steps:
       - name: Checkout
         uses: actions/checkout@v2
