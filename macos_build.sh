@@ -3,7 +3,14 @@
 easy_install --user pyyaml
 
 git clone -q https://github.com/Microsoft/vcpkg.git
-git -C vcpkg apply ../vcpkg_fixup_pkgconfig.cmake.diff
+
+
+if [ -z "$VCPKG_COMMIT_HASH" ]; then
+  echo "Using pinned vcpkg commit: ${VCPKG_COMMIT_HASH}"
+  pushd vcpkg
+  git checkout -q $VCPKG_COMMIT_HASH
+  popd
+fi
 
 vcpkg/bootstrap-vcpkg.sh
 
