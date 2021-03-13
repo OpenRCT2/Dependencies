@@ -15,7 +15,7 @@ fi
 vcpkg/bootstrap-vcpkg.sh
 
 TRIPLET="--overlay-triplets=. --triplet=x64-osx-openrct2"
-LIBRARIES="duktape freetype libpng libzip[core] nlohmann-json openssl sdl2 speexdsp discord-rpc icu"
+LIBRARIES="duktape freetype[core,zlib,bzip2,png] libpng libzip[core] nlohmann-json openssl sdl2 speexdsp discord-rpc icu"
 vcpkg/vcpkg install ${=TRIPLET} ${=LIBRARIES}
 
 (
