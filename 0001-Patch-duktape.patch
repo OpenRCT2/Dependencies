@@ -1,25 +1,26 @@
-From 1f882529130e483f2dddc9134a7e4cf85a3202c3 Mon Sep 17 00:00:00 2001
+From f77c5f479d54e6a52cf101d9435a188cb5e3d3b9 Mon Sep 17 00:00:00 2001
 From: Ted John <ted@brambles.org>
-Date: Mon, 27 Apr 2020 20:32:49 +0100
+Date: Thu, 17 Dec 2020 19:01:30 +0000
 Subject: [PATCH] Patch duktape
 
 ---
- ports/duktape/CMakeLists.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ ports/duktape/CMakeLists.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/ports/duktape/CMakeLists.txt b/ports/duktape/CMakeLists.txt
-index 56303d3d9..60c34185a 100644
+index 746aaa910..19e6af1dd 100644
 --- a/ports/duktape/CMakeLists.txt
 +++ b/ports/duktape/CMakeLists.txt
-@@ -18,6 +18,8 @@ add_library(duktape ${DUKTAPE_SOURCES} ${DUKTAPE_HEADERS})
- target_include_directories(duktape PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src")
- set_target_properties(duktape PROPERTIES PUBLIC_HEADER "${DUKTAPE_HEADERS}")
+@@ -20,6 +20,9 @@ set_target_properties(duktape PROPERTIES PUBLIC_HEADER "${DUKTAPE_HEADERS}")
+ set_target_properties(duktape PROPERTIES VERSION ${duktape_VERSION})
+ set_target_properties(duktape PROPERTIES SOVERSION ${duktape_MAJOR_VERSION})
  
++target_compile_definitions(duktape PRIVATE -DDUK_USE_CPP_EXCEPTIONS)
 +target_compile_definitions(duktape PRIVATE -DDUK_USE_DATE_NOW_WINDOWS)
 +
  if (BUILD_SHARED_LIBS)
    target_compile_definitions(duktape PRIVATE -DDUK_F_DLL_BUILD)
  endif ()
 -- 
-2.25.0.windows.1
+2.29.2.windows.3
 
