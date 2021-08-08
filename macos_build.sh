@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# exit on error
+set -e
+
 easy_install --user pyyaml
 
 git clone -q https://github.com/Microsoft/vcpkg.git
