@@ -25,9 +25,19 @@ vcpkg/vcpkg install ${=X64_TRIPLET} ${=LIBRARIES}
 rsync -ah vcpkg/installed/x64-osx-openrct2/* universal-osx-openrct2
 for lib in vcpkg/installed/x64-osx-openrct2/lib/*.dylib; do
     if [ -f "$lib" ] && [ ! -L $lib ]; then
-    libname=$(basename "$lib")
-      echo "Creating universal (fat) $libname"
-      lipo -create "vcpkg/installed/x64-osx-openrct2/lib/$libname" "vcpkg/installed/arm64-osx-openrct2/lib/$libname" -output "universal-osx-openrct2/lib/$libname"
+      lib_filename=$(basename "$lib")
+      lib_name=$(echo $lib_filename | cut -d'.' -f 1)
+      echo "Creating universal (fat) $lib_name"
+      if [ "$lib_name" = "libzip" ]; then
+        # libzip embeds the full rpath in LC_RPATH
+        # they will be different for arm64 and x86_64
+        # this will cause issues, and is unnecessary
+        install_name_tool -delete_rpath `pwd`"/vcpkg/packages/${lib_name}_x64-osx-openrct2/lib" "vcpkg/installed/x64-osx-openrct2/lib/$lib_filename"
+        install_name_tool -delete_rpath `pwd`"/vcpkg/installed/x64-osx-openrct2/lib" "vcpkg/installed/x64-osx-openrct2/lib/$lib_filename"
+        install_name_tool -delete_rpath `pwd`"/vcpkg/packages/${lib_name}_arm64-osx-openrct2/lib" "vcpkg/installed/arm64-osx-openrct2/lib/$lib_filename"
+        install_name_tool -delete_rpath `pwd`"/vcpkg/installed/arm64-osx-openrct2/lib" "vcpkg/installed/arm64-osx-openrct2/lib/$lib_filename"
+      fi
+      lipo -create "vcpkg/installed/x64-osx-openrct2/lib/$lib_filename" "vcpkg/installed/arm64-osx-openrct2/lib/$lib_filename" -output "universal-osx-openrct2/lib/$lib_filename"
     fi
 done
 
