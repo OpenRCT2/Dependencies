@@ -3,7 +3,7 @@
 # exit on error
 set -e
 
-easy_install --user pyyaml
+easy_install --user pyyaml==5.4.1 
 
 git clone -q https://github.com/Microsoft/vcpkg.git
 
