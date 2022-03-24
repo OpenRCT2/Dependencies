@@ -111,6 +111,11 @@ jobs:
           export VCPKG_COMMIT_HASH='${{ env.VCPKG_COMMIT_HASH }}'
           brew install automake
           ./macos_build.sh
+      - name: Logs
+        if: ${{ failure() }}
+        run: |
+                cat /Users/runner/work/Dependencies/Dependencies/vcpkg/buildtrees/benchmark/config-arm64-osx-openrct2-rel-out.log
+                cat /Users/runner/work/Dependencies/Dependencies/vcpkg/buildtrees/benchmark/config-arm64-osx-openrct2-rel-err.log
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v2
         with:
