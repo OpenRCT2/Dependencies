@@ -1,7 +1,7 @@
 name: CI
 on: [push, pull_request]
 env:
-  VCPKG_COMMIT_HASH: 440075a9fccf52cab386521967e4f074acd1bd34
+  VCPKG_COMMIT_HASH: 5e7cbdceacd2b3cb85e057963fdb605136805bd3
 jobs:
   createrelease:
     name: createrelease
@@ -39,12 +39,12 @@ jobs:
       matrix:
         include:
           - triplet: x86-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
           - triplet: x64-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
           - triplet: arm64-windows-static
             # fribidi is disabled due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64
-            vcpkgPackages: 'benchmark discord-rpc freetype gtest libpng libzip[core] nlohmann-json sdl2 speexdsp zlib'
+            vcpkgPackages: 'benchmark discord-rpc freetype gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           export VCPKG_COMMIT_HASH='${{ env.VCPKG_COMMIT_HASH }}'
-          brew install automake
+          brew install automake autoconf-archive
           ./macos_build.sh
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v2
