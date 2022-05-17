@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           export VCPKG_COMMIT_HASH='${{ env.VCPKG_COMMIT_HASH }}'
-          brew install automake
+          brew install automake autoconf-archive
           ./macos_build.sh
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v2
