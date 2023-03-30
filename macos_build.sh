@@ -18,7 +18,7 @@ vcpkg/bootstrap-vcpkg.sh
 
 ARM_TRIPLET="--overlay-triplets=. --triplet=arm64-osx-openrct2"
 X64_TRIPLET="--overlay-triplets=. --triplet=x64-osx-openrct2"
-LIBRARIES="libpng freetype openssl icu libzip[core] nlohmann-json openal-soft sdl2 speexdsp discord-rpc gtest libflac libogg libvorbis"
+LIBRARIES="libpng freetype openssl icu[core,tools] libzip[core] nlohmann-json openal-soft sdl2 speexdsp discord-rpc gtest libflac libogg libvorbis"
 vcpkg/vcpkg install ${=X64_TRIPLET} "icu" || true
-#cat /Users/runner/work/Dependencies/Dependencies/vcpkg/buildtrees/icu/make-build-fix-rpath-arm64-osx-openrct2-rel-err.log
 find /Users/runner/work/Dependencies/Dependencies/vcpkg/ -name '*icu*.dylib'
+cat /Users/runner/work/Dependencies/Dependencies/vcpkg/buildtrees/icu/make-build-fix-rpath-arm64-osx-openrct2-rel-err.log
