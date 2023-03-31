@@ -1,7 +1,7 @@
 name: CI
 on: [push, pull_request]
 env:
-  VCPKG_COMMIT_HASH: 5e7cbdceacd2b3cb85e057963fdb605136805bd3
+  VCPKG_COMMIT_HASH: c9f906558f9bb12ee9811d6edc98ec9255c6cda5
 jobs:
   createrelease:
     name: createrelease
