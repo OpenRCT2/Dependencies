@@ -17,7 +17,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: v${{ env.version }}
           release_name: Release v${{ env.version }}
@@ -39,12 +39,12 @@ jobs:
       matrix:
         include:
           - triplet: x86-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
+            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis vulkan vulkan-memory-allocator vulkan-memory-allocator-hpp'
           - triplet: x64-windows-static
-            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
+            vcpkgPackages: 'benchmark breakpad discord-rpc freetype fribidi gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis vulkan vulkan-memory-allocator vulkan-memory-allocator-hpp'
           - triplet: arm64-windows-static
             # fribidi is disabled due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64
-            vcpkgPackages: 'benchmark discord-rpc freetype gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis'
+            vcpkgPackages: 'benchmark discord-rpc freetype gtest libpng libzip[core] nlohmann-json openal-soft sdl2 speexdsp zlib libflac libogg libvorbis vulkan vulkan-memory-allocator vulkan-memory-allocator-hpp'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -87,7 +87,7 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1.0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: ${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}\\installed\\openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
@@ -133,7 +133,7 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1.0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
