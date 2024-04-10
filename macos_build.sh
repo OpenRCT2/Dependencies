@@ -49,4 +49,5 @@ done
 (
   cd universal-osx-openrct2 &&
   zip -rXy ../openrct2-libs-v${version}-universal-macos-dylibs.zip * -x '*/.*'
+  shasum ../openrct2-libs-v${version}-universal-macos-dylibs.zip
 )
