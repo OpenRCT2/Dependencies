@@ -61,8 +61,8 @@ jobs:
           runVcpkgInstall: true
       - name: Zip stuff
         run: |
-          pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}
-          7z a -tzip -mx9 -mtc=off ..\openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip "*"
+          pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}/${{ matrix.triplet }}
+          7z a -tzip -mx9 -mtc=off ../../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip "*"
           popd
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v4
@@ -79,7 +79,7 @@ jobs:
         id: get_release_info
         shell: bash
         run: |
-          value=`cat release_url/release_url.txt`
+          value=`cat release_url.txt`
           echo "upload_url=$value" >> $GITHUB_OUTPUT
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/v')
@@ -171,7 +171,7 @@ jobs:
         id: get_release_info
         shell: bash
         run: |
-          value=`cat release_url/release_url.txt`
+          value=`cat release_url.txt`
           echo "upload_url=$value" >> $GITHUB_OUTPUT
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/v')
