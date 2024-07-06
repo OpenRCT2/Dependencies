@@ -94,7 +94,7 @@ jobs:
           asset_content_type: application/zip
   macos-build:
     name: macOS
-    runs-on: macos-latest
+    runs-on: macos-12
     needs: createrelease
     if: always()
     strategy:
