@@ -4,8 +4,9 @@
 set -e
 
 rsync -ah x64-osx-openrct2/* universal-osx-openrct2
-for lib in x64-osx-openrct2/lib/*.dylib; do
+find x64-osx-openrct2/lib -type f -name "*.dylib" | while IFS= read -r lib; do
     if [ -f "$lib" ] && [ ! -L $lib ]; then
+      relative_path=$(echo "$lib" | sed 's|^.*/lib/||')
       lib_filename=$(basename "$lib")
       lib_name=$(echo $lib_filename | cut -d'.' -f 1)
       echo "Creating universal (fat) $lib_name"
@@ -24,25 +25,25 @@ for lib in x64-osx-openrct2/lib/*.dylib; do
           echo Fixing $lib_name LC_ID_DYLIB
           install_name_tool -id "@rpath/$lib_filename" "$arch-osx-openrct2/lib/$lib_filename"
         fi
-        if otool -L $arch-osx-openrct2/lib/$lib_filename | grep -q /Users/runner/work/; then
-          echo "Absolute paths found in $arch-osx-openrct2/lib/$lib_filename. Load commands:"
-          otool -L "$arch-osx-openrct2/lib/$lib_filename"
+        if otool -L $arch-osx-openrct2/lib/$relative_path | grep -q /Users/runner/work/; then
+          echo "Absolute paths found in $arch-osx-openrct2/lib/$relative_path. Load commands:"
+          otool -L "$arch-osx-openrct2/lib/$relative_path"
           # Some packages (currently only brotli) have absolute paths in the LC_LOAD_DYLIB command.
           # This is not supported by the universal build and needs to be changes to @rpath.
 
-          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlicommon.1.dylib "@rpath/libbrotlicommon.1.dylib" "$arch-osx-openrct2/lib/$lib_filename"
-          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlidec.1.dylib "@rpath/libbrotlidec.1.dylib" "$arch-osx-openrct2/lib/$lib_filename"
-          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlienc.1.dylib "@rpath/libbrotlienc.1.dylib" "$arch-osx-openrct2/lib/$lib_filename"
+          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlicommon.1.dylib "@rpath/libbrotlicommon.1.dylib" "$arch-osx-openrct2/lib/$relative_path"
+          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlidec.1.dylib "@rpath/libbrotlidec.1.dylib" "$arch-osx-openrct2/lib/$relative_path"
+          install_name_tool -change /Users/runner/work/Dependencies/Dependencies/vcpkg/packages/brotli_$arch-osx-openrct2/lib/libbrotlienc.1.dylib "@rpath/libbrotlienc.1.dylib" "$arch-osx-openrct2/lib/$relative_path"
 
           # Once done, check that it was the only absolute path in the LC_LOAD_DYLIB command.
-          if otool -L "$arch-osx-openrct2/lib/$lib_filename" | grep -q /Users/runner/work; then
-            echo "Absolute paths still exist in $arch-osx-openrct2/lib/$lib_filename. Load commands:"
-            otool -L $arch-osx-openrct2/lib/$lib_filename
+          if otool -L "$arch-osx-openrct2/lib/$relative_path" | grep -q /Users/runner/work; then
+            echo "Absolute paths still exist in $arch-osx-openrct2/lib/$relative_path. Load commands:"
+            otool -L $arch-osx-openrct2/lib/$relative_path
             exit 1
           fi
         fi
       done
-      lipo -create "x64-osx-openrct2/lib/$lib_filename" "arm64-osx-openrct2/lib/$lib_filename" -output "universal-osx-openrct2/lib/$lib_filename"
+      lipo -create "x64-osx-openrct2/lib/$relative_path" "arm64-osx-openrct2/lib/$relative_path" -output "universal-osx-openrct2/lib/$relative_path"
     fi
 done
 
