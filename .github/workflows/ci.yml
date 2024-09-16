@@ -13,22 +13,6 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
-      - name: Create release
-        id: create_release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ env.version }}
-          name: Release v${{ env.version }}
-          prerelease: false
-      - name: Output Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v4
-        with:
-          name: release_url
-          path: release_url.txt
   windows:
     name: Windows
     runs-on: windows-latest
@@ -64,34 +48,21 @@ jobs:
           pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}/${{ matrix.triplet }}
           7z a -tzip -mx9 -mtc=off ../../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip "*"
           popd
-      - name: Upload zip as artifact
+      - name: Export checksum info for release notes
+        run: |
+          pushd ${{ github.workspace }}/vcpkg
+          sha1sum installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip > ../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
+          popd
+      - name: Upload zipped libraries as artifact
         uses: actions/upload-artifact@v4
         with:
           name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
           path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
-      - name: Load Release URL File from release job
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/download-artifact@v4
+      - name: Upload sha1 as artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: release_url
-      - name: Get Release File Name & Upload URL
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: get_release_info
-        shell: bash
-        run: |
-          value=`cat release_url.txt`
-          echo "upload_url=$value" >> $GITHUB_OUTPUT
-      - name: Upload Release Asset
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
-          asset_name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
-          asset_content_type: application/zip
+          name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
+          path: ${{ github.workspace }}/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
   macos-build:
     name: macOS
     runs-on: macos-14
@@ -161,26 +132,38 @@ jobs:
         with:
           name: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
           path: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
-      - name: Load Release URL File from release job
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [windows, macos-package]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Get the version
         if: startsWith(github.ref, 'refs/tags/v')
+        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: release_url
-      - name: Get Release File Name & Upload URL
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: get_release_info
-        shell: bash
+          merge-multiple: true
+      - name: Concatenate sha1 files
         run: |
-          value=`cat release_url.txt`
-          echo "upload_url=$value" >> $GITHUB_OUTPUT
-      - name: Upload Release Asset
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ls -lR
+          pushd ${{ github.workspace }}
+          sha1sum openrct2-libs-v${{ env.version }}-*.zip > openrct2-libs-v${{ env.version }}-sha1sums.txt
+          popd
+      - name: Create release notes
+        run: |
+          echo "Release notes for version ${{ env.version }}" > release_notes.txt
+          echo "" >> release_notes.txt
+          echo "SHA1 checksums:" >> release_notes.txt
+          echo "\`\`\`" >> release_notes.txt
+          cat openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt >> release_notes.txt
+          echo "\`\`\`" >> release_notes.txt
+          echo "" >> release_notes.txt
+      - name: Create release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
-          asset_name: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
-          asset_content_type: application/zip
+          files: |
+            openrct2-libs-v${{ env.version }}-sha1sums.txt
+            openrct2-libs-v${{ env.version }}-*.zip
+          body_path: release_notes.txt
