@@ -3,20 +3,32 @@ on: [push, pull_request]
 env:
   VCPKG_COMMIT_HASH: 68d349964cb4e8da561fd849d9491e6ba11c5681
 jobs:
-  createrelease:
-    name: createrelease
+  get_version:
+    name: Get version
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Get the version
         id: get_version
-        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+        run: |
+          # check if git ref matches a tag
+          if [[ "$GITHUB_REF" =~ "refs/tags/v" ]]; then
+            TAG=${GITHUB_REF/refs\/tags\/v/}
+            echo setting output to tag $TAG
+            echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          else
+            # set version to sha1 of the commit
+            echo setting output to $GITHUB_SHA
+            echo "version=$GITHUB_SHA" >> $GITHUB_OUTPUT
+          fi
+          echo Output: \"$GITHUB_OUTPUT\"
   windows:
     name: Windows
     runs-on: windows-latest
-    needs: createrelease
+    needs: get_version
     if: always()
     strategy:
       fail-fast: false
@@ -28,11 +40,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get the version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          chcp 65001 #set code page to utf-8
-          echo ("version=" + $env:GITHUB_REF.replace('refs/tags/v', '')) >> $env:GITHUB_ENV
       - uses: lukka/get-cmake@latest
       - name: Install vcpkg and packages
         uses: lukka/run-vcpkg@v11
@@ -46,27 +53,27 @@ jobs:
       - name: Zip stuff
         run: |
           pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}/${{ matrix.triplet }}
-          7z a -tzip -mx9 -mtc=off ../../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip "*"
+          7z a -tzip -mx9 -mtc=off ../../openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip "*"
           popd
       - name: Export checksum info for release notes
         run: |
           pushd ${{ github.workspace }}/vcpkg
-          sha1sum installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip > ../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
+          sha1sum installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip > ../openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
           popd
       - name: Upload zipped libraries as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
-          path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip
+          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip
+          path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip
       - name: Upload sha1 as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
-          path: ${{ github.workspace }}/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}.zip.sha1
+          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
+          path: ${{ github.workspace }}/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
   macos-build:
     name: macOS
     runs-on: macos-14
-    needs: createrelease
+    needs: get_version
     if: always()
     strategy:
       fail-fast: false
@@ -78,9 +85,6 @@ jobs:
       # needed for vcpkg.json
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get the version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Install prerequisites
         shell: bash
         run: |
@@ -100,47 +104,43 @@ jobs:
       - name: Zip stuff
         run: |
           pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}
-          zip -rXy ../openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}-macos-dylibs.zip * -x '*/.*'
+          zip -rXy ../openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}-macos-dylibs.zip * -x '*/.*'
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}-macos-dylibs.zip
-          path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ env.version }}-${{ matrix.triplet }}-macos-dylibs.zip
+          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}-macos-dylibs.zip
+          path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}-macos-dylibs.zip
 
   macos-package:
     name: macOS package universal library
     runs-on: macos-14
-    needs: macos-build
+    needs: [macos-build, get_version]
     if: always()
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get the version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: openrct2-libs-v*-macos-dylibs.zip
       - name: Create Universal Library
+        env:
+          version: ${{ needs.get_version.outputs.version }}
         run: |
-          unzip -qo openrct2-libs-v${{ env.version }}-arm64-osx-openrct2-macos-dylibs.zip/openrct2-libs-v${{ env.version }}-arm64-osx-openrct2-macos-dylibs.zip
-          unzip -qo openrct2-libs-v${{ env.version }}-x64-osx-openrct2-macos-dylibs.zip/openrct2-libs-v${{ env.version }}-x64-osx-openrct2-macos-dylibs.zip
+          unzip -qo openrct2-libs-v${{ needs.get_version.outputs.version }}-arm64-osx-openrct2-macos-dylibs.zip/openrct2-libs-v${{ needs.get_version.outputs.version }}-arm64-osx-openrct2-macos-dylibs.zip
+          unzip -qo openrct2-libs-v${{ needs.get_version.outputs.version }}-x64-osx-openrct2-macos-dylibs.zip/openrct2-libs-v${{ needs.get_version.outputs.version }}-x64-osx-openrct2-macos-dylibs.zip
           ./macos_build.sh
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
-          path: openrct2-libs-v${{ env.version }}-universal-macos-dylibs.zip
+          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-universal-macos-dylibs.zip
+          path: openrct2-libs-v${{ needs.get_version.outputs.version }}-universal-macos-dylibs.zip
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: [windows, macos-package]
+    needs: [windows, macos-package, get_version]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
-      - name: Get the version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -149,11 +149,11 @@ jobs:
         run: |
           ls -lR
           pushd ${{ github.workspace }}
-          sha1sum openrct2-libs-v${{ env.version }}-*.zip > openrct2-libs-v${{ env.version }}-sha1sums.txt
+          sha1sum openrct2-libs-v${{ needs.get_version.outputs.version }}-*.zip > openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt
           popd
       - name: Create release notes
         run: |
-          echo "Release notes for version ${{ env.version }}" > release_notes.txt
+          echo "Release notes for version ${{ needs.get_version.outputs.version }}" > release_notes.txt
           echo "" >> release_notes.txt
           echo "SHA1 checksums:" >> release_notes.txt
           echo "\`\`\`" >> release_notes.txt
@@ -164,6 +164,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            openrct2-libs-v${{ env.version }}-sha1sums.txt
-            openrct2-libs-v${{ env.version }}-*.zip
+            openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt
+            openrct2-libs-v${{ needs.get_version.outputs.version }}-*.zip
           body_path: release_notes.txt
