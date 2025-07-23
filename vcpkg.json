@@ -37,7 +37,8 @@
         },
         "sdl2",
         "speexdsp",
-        "zlib"
+        "zlib",
+        "zstd"
     ],
     "overrides": [
         {
