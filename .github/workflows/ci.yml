@@ -58,18 +58,18 @@ jobs:
       - name: Export checksum info for release notes
         run: |
           pushd ${{ github.workspace }}/vcpkg
-          sha1sum installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip > ../openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
+          sha256sum installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip > ../openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha256
           popd
       - name: Upload zipped libraries as artifact
         uses: actions/upload-artifact@v4
         with:
           name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip
           path: ${{ github.workspace }}/vcpkg/installed/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip
-      - name: Upload sha1 as artifact
+      - name: Upload sha256 as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
-          path: ${{ github.workspace }}/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha1
+          name: openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha256
+          path: ${{ github.workspace }}/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha256
   macos-build:
     name: macOS
     runs-on: macos-14
@@ -145,25 +145,25 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
-      - name: Concatenate sha1 files
+      - name: Concatenate sha256 files
         run: |
           ls -lR
           pushd ${{ github.workspace }}
-          sha1sum openrct2-libs-v${{ needs.get_version.outputs.version }}-*.zip > openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt
+          sha256sum openrct2-libs-v${{ needs.get_version.outputs.version }}-*.zip > openrct2-libs-v${{ needs.get_version.outputs.version }}-sha256sums.txt
           popd
       - name: Create release notes
         run: |
           echo "Release notes for version ${{ needs.get_version.outputs.version }}" > release_notes.txt
           echo "" >> release_notes.txt
-          echo "SHA1 checksums:" >> release_notes.txt
+          echo "SHA256 checksums:" >> release_notes.txt
           echo "\`\`\`" >> release_notes.txt
-          cat openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt >> release_notes.txt
+          cat openrct2-libs-v${{ needs.get_version.outputs.version }}-sha256sums.txt >> release_notes.txt
           echo "\`\`\`" >> release_notes.txt
           echo "" >> release_notes.txt
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            openrct2-libs-v${{ needs.get_version.outputs.version }}-sha1sums.txt
+            openrct2-libs-v${{ needs.get_version.outputs.version }}-sha256sums.txt
             openrct2-libs-v${{ needs.get_version.outputs.version }}-*.zip
           body_path: release_notes.txt
