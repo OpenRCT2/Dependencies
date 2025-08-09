@@ -72,7 +72,7 @@ jobs:
           path: ${{ github.workspace }}/openrct2-libs-v${{ needs.get_version.outputs.version }}-${{ matrix.triplet }}.zip.sha256
   macos-build:
     name: macOS
-    runs-on: macos-14
+    runs-on: macos-15
     needs: get_version
     if: always()
     strategy:
