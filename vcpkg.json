@@ -38,7 +38,8 @@
         "sdl2",
         "speexdsp",
         "zlib",
-        "zstd"
+        "zstd",
+        "quickjs-ng"
     ],
     "overrides": [
         {
@@ -51,5 +52,5 @@
             "version": "3.11.3#1"
         }
     ],
-    "builtin-baseline": "dd3097e305afa53f7b4312371f62058d2e665320"
+    "builtin-baseline": "6d54bb066797368cedcf259b5dc9e5f53dd3c877"
 }

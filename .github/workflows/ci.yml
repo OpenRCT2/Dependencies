@@ -1,7 +1,7 @@
 name: CI
 on: [push, pull_request]
 env:
-  VCPKG_COMMIT_HASH: dd3097e305afa53f7b4312371f62058d2e665320
+  VCPKG_COMMIT_HASH: 6d54bb066797368cedcf259b5dc9e5f53dd3c877
 jobs:
   get_version:
     name: Get version
@@ -49,6 +49,7 @@ jobs:
           VCPKG_INSTALLED_DIR: ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}
         with:
           vcpkgGitCommitId: '${{ env.VCPKG_COMMIT_HASH }}'
+          vcpkgGitURL: 'https://github.com/ZehMatt/vcpkg.git'
           runVcpkgInstall: true
       - name: Zip stuff
         run: |
@@ -98,9 +99,10 @@ jobs:
           VCPKG_INSTALLED_DIR: ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}
         with:
           vcpkgGitCommitId: '${{ env.VCPKG_COMMIT_HASH }}'
+          vcpkgGitURL: 'https://github.com/ZehMatt/vcpkg.git'
           runVcpkgInstall: true
           # needed for --overlay-triplets option
-          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--overlay-triplets=.`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`]'
+          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--overlay-triplets=.`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`, `--overlay-ports=.`]'
       - name: Zip stuff
         run: |
           pushd ${{ github.workspace }}/vcpkg/installed/${{ matrix.triplet }}
