@@ -35,6 +35,7 @@
             "name": "libressl",
             "platform": "!windows"
         },
+        "quickjs-ng",
         "sdl2",
         "speexdsp",
         "zlib",
