@@ -44,7 +44,8 @@
     "overrides": [
         {
             "name": "breakpad",
-            "version": "2022-07-12#5"
+            "version": "2022-07-12#5",
+            "$explanation": "https://github.com/OpenRCT2/OpenRCT2/issues/22003"
         },
         {
             "name": "nlohmann-json",
