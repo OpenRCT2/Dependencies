@@ -10,11 +10,7 @@
         },
         "discord-rpc",
         "freetype",
-        {
-            "$explanation": "fribidi is disabled on arm due to https://github.com/microsoft/vcpkg/issues/11248 [fribidi] Fribidi doesn't cross-compile on x86-64 to target arm/arm64",
-            "name": "fribidi",
-            "platform": "!arm & !osx"
-        },
+        "fribidi",
         "gtest",
         {
             "name": "icu",
